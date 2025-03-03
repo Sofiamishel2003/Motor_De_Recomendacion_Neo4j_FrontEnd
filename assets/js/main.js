@@ -197,3 +197,131 @@
   window.addEventListener("load", initSwiper);
 
 })();
+document.addEventListener("DOMContentLoaded", function () {
+  const nodeTypeSelect = document.getElementById("nodeType");
+  const multiNodeCheckbox = document.getElementById("multiNode");
+  const nodeIdsContainer = document.getElementById("nodeIdsContainer");
+  const addPropertyBtn = document.getElementById("addPropertyBtn");
+  const propertiesContainer = document.getElementById("propertiesContainer");
+
+  // Detectar el tipo de formulario (Agregar, Editar o Eliminar)
+  const isDeleteForm = document.body.classList.contains("delete-properties-page");
+
+  const nodeProperties = {
+      Usuario: ["nombre", "edad", "pais", "suscripcion", "ultima_fecha_vista", "dispositivo", "activo", "intereses"],
+      Pelicula: ["titulo", "año", "duracion", "rating", "sinopsis", "activo"],
+      Serie: ["titulo", "temporadas", "episodios", "rating", "sinopsis", "activo"],
+      Genero: ["nombre", "popularidad", "descripcion", "subgeneros", "activo"],
+      Actor: ["nombre", "nacionalidad", "edad", "premios", "activo"],
+      Director: ["nombre", "nacionalidad", "edad", "premios", "activo"]
+  };
+
+  function getSelectedProperties() {
+      return Array.from(document.querySelectorAll(".property-key")).map(select => select.value);
+  }
+
+  function updatePropertyDropdowns() {
+      const selectedNodeType = nodeTypeSelect.value;
+      const selectedProperties = new Set(getSelectedProperties());
+
+      document.querySelectorAll(".property-key").forEach(select => {
+          const currentValue = select.value;
+          select.innerHTML = "";
+
+          nodeProperties[selectedNodeType].forEach(property => {
+              if (!selectedProperties.has(property) || property === currentValue) {
+                  const option = document.createElement("option");
+                  option.value = property;
+                  option.textContent = property;
+                  select.appendChild(option);
+              }
+          });
+
+          select.value = currentValue;
+      });
+
+      addPropertyBtn.style.display = selectedProperties.size < nodeProperties[selectedNodeType].length ? "inline-block" : "none";
+  }
+
+  function toggleMultiNode() {
+      if (multiNodeCheckbox.checked) {
+          nodeIdsContainer.innerHTML = `
+              <label class="form-label">IDs de los Nodos (separados por comas)</label>
+              <input type="text" class="form-control" id="nodeIds" placeholder="Ejemplo: 101, 102, 103">
+          `;
+      } else {
+          nodeIdsContainer.innerHTML = `
+              <label class="form-label">ID del Nodo</label>
+              <input type="number" class="form-control" id="nodeId" required>
+          `;
+      }
+  }
+
+  function addPropertyField(isFirst = false) {
+      const selectedNodeType = nodeTypeSelect.value;
+      const propertyGroup = document.createElement("div");
+      propertyGroup.classList.add("row", "mb-3", "align-items-center");
+
+      const propertySelectDiv = document.createElement("div");
+      propertySelectDiv.classList.add("col-md-5");
+
+      const propertySelect = document.createElement("select");
+      propertySelect.classList.add("form-select", "property-key");
+      nodeProperties[selectedNodeType].forEach(property => {
+          if (!getSelectedProperties().includes(property)) {
+              const option = document.createElement("option");
+              option.value = property;
+              option.textContent = property;
+              propertySelect.appendChild(option);
+          }
+      });
+
+      propertySelectDiv.appendChild(propertySelect);
+
+      // Para Agregar o Editar se necesita un campo de valor, en Eliminar no
+      const propertyInputDiv = document.createElement("div");
+      propertyInputDiv.classList.add("col-md-5");
+
+      if (!isDeleteForm) {
+          const propertyInput = document.createElement("input");
+          propertyInput.type = "text";
+          propertyInput.classList.add("form-control", "property-value");
+          propertyInputDiv.appendChild(propertyInput);
+      }
+
+      const deleteBtnDiv = document.createElement("div");
+      deleteBtnDiv.classList.add("col-md-2");
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.type = "button";
+      deleteBtn.classList.add("btn", "btn-danger", "w-100");
+      deleteBtn.textContent = "Eliminar";
+      deleteBtn.addEventListener("click", function () {
+          propertiesContainer.removeChild(propertyGroup);
+          updatePropertyDropdowns();
+      });
+
+      if (!isFirst) {
+          deleteBtnDiv.appendChild(deleteBtn);
+      }
+
+      propertyGroup.appendChild(propertySelectDiv);
+      propertyGroup.appendChild(propertyInputDiv);
+      propertyGroup.appendChild(deleteBtnDiv);
+
+      propertiesContainer.appendChild(propertyGroup);
+      updatePropertyDropdowns();
+  }
+
+  nodeTypeSelect.addEventListener("change", function () {
+      propertiesContainer.innerHTML = "";
+      addPropertyField(true);
+      updatePropertyDropdowns();
+  });
+
+  multiNodeCheckbox.addEventListener("change", toggleMultiNode);
+  addPropertyBtn.addEventListener("click", () => addPropertyField());
+
+  toggleMultiNode();
+  addPropertyField(true);
+});

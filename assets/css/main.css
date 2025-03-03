@@ -2493,3 +2493,33 @@ section,
   color: color-mix(in srgb, var(--default-color), transparent 60%);
   font-size: 14px;
 }
+.gradient-custom {
+  /* fallback for old browsers */
+  background: #e3bd05;
+  
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to bottom right, rgb(255, 223, 12), rgb(219, 245, 87));
+  
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to bottom right, rgba(213, 182, 28, 0.979), rgb(255, 159, 56))
+  }
+  
+  .card-registration .select-input.form-control[readonly]:not([disabled]) {
+  font-size: 1rem;
+  line-height: 2.15;
+  padding-left: .75em;
+  padding-right: .75em;
+  }
+  .card-registration .select-arrow {
+  top: 5px;
+  }
+  .btn-submit-custom {
+    background-color: var(--accent-color); /* Cambia este color a tu preferencia */
+    border-color:  var(--accent-color);
+    color: white !important;
+    font-weight: bold;
+}
+.btn-submit-custom:hover {
+    color: var(--contrast-color);
+    background: color-mix(in srgb, var(--accent-color), transparent 15%);
+  }
