@@ -77,5 +77,6 @@ window.generarVisualizacion = async function () {
     }
 };
 
+window.generarVisualizacion = generarVisualizacion;
 
 export { agregarPropiedad, actualizarPropiedad, eliminarPropiedad, generarVisualizacion };
