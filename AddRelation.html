@@ -101,86 +101,81 @@
       </div>
     </div><!-- End Page Title -->
 
-    <!-- Team Section -->
-    <section id="team" class="team section">
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing section">
 
       <div class="container">
 
-        <div class="row gy-4">
+        <div class="row gy-3">
 
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-            <div class="team-member d-flex align-items-start">
-              <div class="pic"><img src="assets/img/team/team-1.jpg" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Walter White</h4>
-                <span>Chief Executive Officer</span>
-                <p>Explicabo voluptatem mollitia et repellat qui dolorum quasi</p>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""> <i class="bi bi-linkedin"></i> </a>
-                </div>
+          <div class="col-xl-3 col-lg-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="pricing-item">
+              <div class="search-box">
+                <button class="btn-search"><i class="fas fa-search"></i></button>
+                <input type="text" class="input-search" placeholder="Enter From Id">
+                <div class="search-results"></div>
+              </div>
+              <h4 class="pricing-title">ID: N/A</h4>
+              <p class="pricing-type">Type: N/A</p>
+              <div class="btn-wrap">
+                <p class="pricing-type">Type: 
+                  <select id="from-node" class="node-type-dropdown">
+                    <option value="">Select From Node Type</option>
+                    <option value="Usuario">Usuario</option>
+                    <option value="Pelicula">Pelicula</option>
+                    <option value="Serie">Serie</option>
+                    <option value="Director">Director</option>
+                    <option value="Actor">Actor</option>
+                    <option value="Genero">Genero</option>
+                  </select>
+                </p>
               </div>
             </div>
-          </div><!-- End Team Member -->
+          </div>
+          <!-- End First Pricing Item -->
 
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-            <div class="team-member d-flex align-items-start">
-              <div class="pic"><img src="assets/img/team/team-2.jpg" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Sarah Jhonson</h4>
-                <span>Product Manager</span>
-                <p>Aut maiores voluptates amet et quis praesentium qui senda para</p>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""> <i class="bi bi-linkedin"></i> </a>
+            <!-- Relationship Inputs (Outside Pricing Items) -->
+          <div class="col-xl-3 col-lg-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="add-properties-container">
+              <input type="text" class="relation-type" placeholder="Enter Relationship Type">
+              
+              <div class="properties-container">
+                <div class="property">
+                  <input type="text" class="property-key" placeholder="Property Key">
+                  <input type="text" class="property-value" placeholder="Property Value">
                 </div>
               </div>
+              <button class="add-property">+</button>
+              <button class="submit-add-properties">Add Properties</button>
             </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
-            <div class="team-member d-flex align-items-start">
-              <div class="pic"><img src="assets/img/team/team-3.jpg" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>William Anderson</h4>
-                <span>CTO</span>
-                <p>Quisquam facilis cum velit laborum corrupti fuga rerum quia</p>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""> <i class="bi bi-linkedin"></i> </a>
-                </div>
+          </div>
+          
+          <div class="col-xl-3 col-lg-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="pricing-item">
+              <div class="search-box">
+                <button class="btn-search"><i class="fas fa-search"></i></button>
+                <input type="text" class="input-search" placeholder="Enter To Id">
+                <div class="search-results"></div>
+              </div>
+              <h4 class="pricing-title">ID: N/A</h4>
+              <p class="pricing-type">Type: N/A</p>
+              <div class="btn-wrap">
+                <p class="pricing-type">Type: 
+                  <select id="to-node" class="node-type-dropdown" disabled>
+                    <option value="">Select To Node Type</option>
+                  </select>
+                </p>
               </div>
             </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
-            <div class="team-member d-flex align-items-start">
-              <div class="pic"><img src="assets/img/team/team-4.jpg" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Amanda Jepson</h4>
-                <span>Accountant</span>
-                <p>Dolorum tempora officiis odit laborum officiis et et accusamus</p>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""> <i class="bi bi-linkedin"></i> </a>
-                </div>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
+          </div>
+          <!-- End Second Pricing Item -->
+          
 
         </div>
 
       </div>
 
-    </section><!-- /Team Section -->
+    </section><!-- /Pricing Section -->
 
   </main>
 
