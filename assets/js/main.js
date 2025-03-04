@@ -516,7 +516,7 @@
     return properties;
 }
 
-      // Manejar actualización de relaciones existentes
+      // Manejar delete de (propiedades) relaciones existentes
       document.querySelector(".submit-delete-properties")?.addEventListener("click", function () {
         let pricingData = getPricingData();
         console.log("pricing data: ",pricingData);
@@ -564,6 +564,86 @@
     
         sendRequest(url, "DELETE", body, "Properties deleted successfully!");
     });
+
+    // Manejar delete de (propiedades) relaciones existentes
+    document.querySelector(".submit-delete-relationships")?.addEventListener("click", function () {
+      let pricingData = getPricingData();
+      console.log("pricing data: ",pricingData);
+      let relationType = relationDropdown.value;
+      console.log("relation type",relationType);
+      if (!pricingData || !relationType) {
+          alert("Please make sure all fields are filled.");
+          return;
+      }
+      console.log(toIds);
+      if (toIds.length > 0) {
+          toIds = toIds.map(item => parseInt(item.value)).filter(num => !isNaN(num));
+          toIds.push(pricingData.to_id);
+          pricingData.to_id = toIds;
+      }
+      
+      if (fromIds.length > 0) {
+          fromIds = fromIds.map(item => parseInt(item.value)).filter(num => !isNaN(num));
+          fromIds.push(pricingData.from_id);
+          pricingData.from_id = fromIds;
+      }
+    
+      let isMultiple = Array.isArray(pricingData.from_id) || Array.isArray(pricingData.to_id);
+      let url = isMultiple 
+          ? "http://127.0.0.1:8000/relations/delete-multiple" 
+          : "http://127.0.0.1:8000/relation/delete";
+  
+      let body = {
+          relation_type: relationType,
+          from_label: pricingData.from_label,
+          to_label: pricingData.to_label
+      };
+  
+      if (isMultiple) {
+          console.log("ismultiple");
+          body.from_ids = Array.isArray(pricingData.from_id) ? pricingData.from_id : [pricingData.from_id];
+          body.to_ids = Array.isArray(pricingData.to_id) ? pricingData.to_id : [pricingData.to_id];
+      } else {
+          body.from_id = pricingData.from_id;
+          body.to_id = pricingData.to_id;
+      }
+  
+      sendRequest(url, "DELETE", body, "Relationships deleted successfully!");
+  });
+
+    // Manejar delete de nodos
+    document.querySelector(".submit-delete-nodos")?.addEventListener("click", function () {
+      let pricingData = getPricingData();
+      console.log("pricing data: ",pricingData);
+      if (!pricingData) {
+          alert("Please make sure all fields are filled.");
+          return;
+      }
+      
+      if (fromIds.length > 0) {
+          fromIds = fromIds.map(item => parseInt(item.value)).filter(num => !isNaN(num));
+          fromIds.push(pricingData.from_id);
+          pricingData.from_id = fromIds;
+      }
+    
+      let isMultiple = Array.isArray(pricingData.from_id) || Array.isArray(pricingData.to_id);
+      let url = isMultiple 
+          ? "http://127.0.0.1:8000/nodes/delete-multiple" 
+          : "http://127.0.0.1:8000/node/delete";
+  
+      let body = {
+          label: pricingData.from_label
+      };
+  
+      if (isMultiple) {
+          console.log("ismultiple");
+          body.ids = Array.isArray(pricingData.from_id) ? pricingData.from_id : [pricingData.from_id];
+      } else {
+          body.id = pricingData.from_id;
+      }
+  
+      sendRequest(url, "DELETE", body, "Nodes deleted successfully!");
+  });
 
   // Arrays para almacenar los IDs de los nodos seleccionados
 let fromIds = [];
