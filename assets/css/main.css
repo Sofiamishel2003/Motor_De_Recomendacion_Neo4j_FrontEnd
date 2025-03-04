@@ -1955,8 +1955,8 @@ section,
 }
 
 
-/*--------------------------------------------------------------
-#.pricing .pricing-item .search-box{
+
+.pricing .pricing-item .search-box{
   width: 100%;
   height: fit-content;
   position: relative;
@@ -2040,7 +2040,7 @@ section,
 
 
 
- Blog Posts Section
+ /*Blog Posts Section
 --------------------------------------------------------------*/
 .blog-posts article {
   background-color: var(--surface-color);
