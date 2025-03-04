@@ -47,7 +47,7 @@ async function realizarSolicitud(metodo, endpoint, datos) {
         throw error;
     }
 }
-window.generarVisualizacion = async function () {
+async function generarVisualizacion() {
     const f_label = document.getElementById("f_label").value;
     const f_val = document.getElementById("f_val").value;
     const t_label = document.getElementById("t_label").value;
@@ -75,8 +75,9 @@ window.generarVisualizacion = async function () {
         console.error("Error al obtener la visualización:", error);
         alert("Error al obtener la visualización. Revisa la consola para más detalles.");
     }
-};
+}
 
+// **Asigna la función al objeto window**
 window.generarVisualizacion = generarVisualizacion;
 
 export { agregarPropiedad, actualizarPropiedad, eliminarPropiedad, generarVisualizacion };
