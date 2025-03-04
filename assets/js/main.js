@@ -297,7 +297,7 @@
                     return;
                 }
 
-                fetch(`http://127.0.0.1:8000/searchidlabel/${nodeId}/${selectedLabel}`)
+                fetch(`https://motor-de-recomendacion-neo4j-sofia-velasquezs-projects.vercel.app/searchidlabel/${nodeId}/${selectedLabel}`)
                     .then(response => response.json())
                     .then(data => {
                         console.log("Parsed JSON response:", data);
@@ -426,7 +426,7 @@
             return;
         }
 
-        sendRequest("http://127.0.0.1:8000/relation/create", "POST", {
+        sendRequest("https://motor-de-recomendacion-neo4j-sofia-velasquezs-projects.vercel.app/relation/create", "POST", {
             from_label: pricingData.from_label,
             from_id: pricingData.from_id,
             to_label: pricingData.to_label,
@@ -447,7 +447,7 @@
             return;
         }
 
-        sendRequest("http://127.0.0.1:8000/relation/add-properties", "PUT", {
+        sendRequest("https://motor-de-recomendacion-neo4j-sofia-velasquezs-projects.vercel.app/relation/add-properties", "PUT", {
             relation_type: relationType,
             from_label: pricingData.from_label,
             from_id: pricingData.from_id,
@@ -484,8 +484,8 @@
       console.log(toIds);
       let isMultiple = Array.isArray(pricingData.from_id) || Array.isArray(pricingData.to_id);
       let url = isMultiple 
-          ? "http://127.0.0.1:8000/relations/update-multiple" 
-          : "http://127.0.0.1:8000/relation/update-properties";
+          ? "https://motor-de-recomendacion-neo4j-sofia-velasquezs-projects.vercel.app/relations/update-multiple" 
+          : "https://motor-de-recomendacion-neo4j-sofia-velasquezs-projects.vercel.app/relation/update-properties";
   
       let body = {
           relation_type: relationType,
@@ -543,8 +543,8 @@
         console.log(toIds);
         let isMultiple = Array.isArray(pricingData.from_id) || Array.isArray(pricingData.to_id);
         let url = isMultiple 
-            ? "http://127.0.0.1:8000/relations/delete-multiple-properties" 
-            : "http://127.0.0.1:8000/relation/delete-properties";
+            ? "https://motor-de-recomendacion-neo4j-sofia-velasquezs-projects.vercel.app/relations/delete-multiple-properties" 
+            : "https://motor-de-recomendacion-neo4j-sofia-velasquezs-projects.vercel.app/relation/delete-properties";
     
         let body = {
             relation_type: relationType,
@@ -590,8 +590,8 @@
     
       let isMultiple = Array.isArray(pricingData.from_id) || Array.isArray(pricingData.to_id);
       let url = isMultiple 
-          ? "http://127.0.0.1:8000/relations/delete-multiple" 
-          : "http://127.0.0.1:8000/relation/delete";
+          ? "https://motor-de-recomendacion-neo4j-sofia-velasquezs-projects.vercel.app/relations/delete-multiple" 
+          : "https://motor-de-recomendacion-neo4j-sofia-velasquezs-projects.vercel.app/relation/delete";
   
       let body = {
           relation_type: relationType,
@@ -642,8 +642,8 @@
     
       let isMultiple = Array.isArray(pricingData.id);
       let url = isMultiple 
-          ? "http://127.0.0.1:8000/nodes/delete-multiple" 
-          : "http://127.0.0.1:8000/node/delete";
+          ? "https://motor-de-recomendacion-neo4j-sofia-velasquezs-projects.vercel.app/nodes/delete-multiple" 
+          : "https://motor-de-recomendacion-neo4j-sofia-velasquezs-projects.vercel.app/node/delete";
   
       let body = {
           label: pricingData.label
