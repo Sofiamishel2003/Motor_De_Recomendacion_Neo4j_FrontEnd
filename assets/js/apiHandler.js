@@ -2,9 +2,12 @@ const API_BASE_URL = "http://127.0.0.1:8000"; // Reemplaza con la URL de vercel
 
 async function agregarPropiedad(label, ids, propiedades, multiple = false) {
     const endpoint = multiple ? `/nodes/${label}/add_properties` : "/node/add-properties";
-    const payload = multiple ? { label, node_ids: ids, properties: propiedades } : { label, id: ids[0], properties: propiedades };
-    
-    return await realizarSolicitud("POST", endpoint, payload);
+    const metodo = multiple ? "POST" : "PUT"; // Corrección aquí
+    const payload = multiple 
+        ? { node_ids: ids, properties: propiedades } 
+        : { label, id: ids[0], properties: propiedades };
+
+    return await realizarSolicitud(metodo, endpoint, payload);
 }
 
 async function actualizarPropiedad(label, ids, propiedades, multiple = false) {
