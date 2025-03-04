@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://127.0.0.1:8000"; // Reemplaza con la URL de vercel
+const API_BASE_URL = "https://motor-de-recomendacion-neo4j-sofia-velasquezs-projects.vercel.app"; 
 
 async function agregarPropiedad(label, ids, propiedades, multiple = false) {
     const endpoint = multiple ? `/nodes/${label}/add_properties` : "/node/add-properties";
