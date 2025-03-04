@@ -208,7 +208,10 @@
 
 <!-- Main JS File -->
 <script src="assets/js/main.js"></script>
-<script src="assets/js/apiHandler.js"></script>
+<script type="module">
+  import { generarVisualizacion } from "./assets/js/apiHandler.js";
+  window.generarVisualizacion = generarVisualizacion;
+</script>
 </body>
 
 </html>
