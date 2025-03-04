@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://motor-de-recomendacion-neo4j-sofia-velasquezs-projects.vercel.app"; 
+const API_BASE_URL = "http://localhost:8000"; 
 
 async function agregarPropiedad(label, ids, propiedades, multiple = false) {
     const endpoint = multiple ? `/nodes/${label}/add_properties` : "/node/add-properties";
@@ -28,7 +28,38 @@ async function eliminarPropiedad(label, ids, propiedades, multiple = false) {
 
     return await realizarSolicitud("DELETE", endpoint, payload);
 }
+async function recomendarPorUsuario(id){
+    let endpoint = `/rec/user/${id}`
+    return await getRequest(endpoint);
+}
+async function recomendarPorSub(id){
+    let endpoint = `/rec/subgenre/${id}`
+    return await getRequest(endpoint);
+}
+async function recomendarPorActor(id){
+    let endpoint = `/rec/actor/${id}`
+    return await getRequest(endpoint);
+}
+async function recomendarPorDirector(id){
+    let endpoint = `/rec/director/${id}`
+    return await getRequest(endpoint);
+}
+async function getRequest(endpoint){
+    try {
+        const respuesta = await fetch(`${API_BASE_URL}${endpoint}`, {
+            method: "GET"
+        });
 
+        const resultado = await respuesta.json();
+        if (!respuesta.ok) {
+            throw new Error(resultado.detail || "Error en la solicitud");
+        }
+        return resultado;
+    } catch (error) {
+        console.error("Error:", error);
+        throw error;
+    }
+}
 async function realizarSolicitud(metodo, endpoint, datos) {
     try {
         const respuesta = await fetch(`${API_BASE_URL}${endpoint}`, {
@@ -95,6 +126,7 @@ async function generarVisualizacion() {
 // **Asigna la función al objeto window**
 window.generarVisualizacion = generarVisualizacion;
 
+
 async function generarVisualizacionFiltro() {
     const labels = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
                         .map(checkbox => checkbox.value);
@@ -146,4 +178,4 @@ async function generarVisualizacionFiltro() {
 window.generarVisualizacionFiltro = generarVisualizacionFiltro;
 
 
-export { agregarPropiedad, actualizarPropiedad, eliminarPropiedad, generarVisualizacion ,generarVisualizacionFiltro};
+export { agregarPropiedad, actualizarPropiedad, eliminarPropiedad, generarVisualizacion ,generarVisualizacionFiltro, recomendarPorUsuario, recomendarPorSub, recomendarPorActor, recomendarPorDirector};
