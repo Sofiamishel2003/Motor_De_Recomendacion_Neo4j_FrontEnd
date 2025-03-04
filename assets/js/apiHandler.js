@@ -63,14 +63,25 @@ async function generarVisualizacion() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(requestData)
         });
-        
+
         if (!response.ok) {
             throw new Error("Error en la respuesta del servidor");
         }
+
+        // Crear un objeto Blob para la imagen
+        const imageBlob = await response.blob();
+        const imageURL = URL.createObjectURL(imageBlob);
         
-        const imageURL = URL.createObjectURL(await response.blob());
-        document.getElementById("graphImage").src = imageURL;
-        document.getElementById("graphImage").classList.remove("d-none");
+        console.log("Imagen generada en:", imageURL); // Depuración en consola
+
+        const imgElement = document.getElementById("graphImage");
+        imgElement.src = imageURL;
+        imgElement.classList.remove("d-none");
+        imgElement.style.display = "block"; // Asegurar que se muestre
+
+        // Abrir en una nueva pestaña para comprobar si la imagen es válida
+        window.open(imageURL);
+
     } catch (error) {
         console.error("Error al obtener la visualización:", error);
         alert("Error al obtener la visualización. Revisa la consola para más detalles.");
@@ -79,5 +90,6 @@ async function generarVisualizacion() {
 
 // **Asigna la función al objeto window**
 window.generarVisualizacion = generarVisualizacion;
+
 
 export { agregarPropiedad, actualizarPropiedad, eliminarPropiedad, generarVisualizacion };
