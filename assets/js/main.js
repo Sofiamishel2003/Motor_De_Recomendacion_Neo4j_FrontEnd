@@ -505,6 +505,65 @@
   
       sendRequest(url, "PUT", body, "Properties updated successfully!");
   });
+  function collectPropertiesJustKey(containerSelector) {
+    let properties = [];
+    document.querySelectorAll(`${containerSelector} .property-key`).forEach(input => {
+        let key = input.value.trim();
+        if (key) {
+            properties.push(key); // Solo guarda la clave, sin valores
+        }
+    });
+    return properties;
+}
+
+      // Manejar actualización de relaciones existentes
+      document.querySelector(".submit-delete-properties")?.addEventListener("click", function () {
+        let pricingData = getPricingData();
+        console.log("pricing data: ",pricingData);
+        let relationType = relationDropdown.value;
+        console.log("relation type",relationType);
+        if (!pricingData || !relationType) {
+            alert("Please make sure all fields are filled.");
+            return;
+        }
+        console.log(toIds);
+        if (toIds.length > 0) {
+            toIds = toIds.map(item => parseInt(item.value)).filter(num => !isNaN(num));
+            toIds.push(pricingData.to_id);
+            pricingData.to_id = toIds;
+        }
+        
+        if (fromIds.length > 0) {
+            fromIds = fromIds.map(item => parseInt(item.value)).filter(num => !isNaN(num));
+            fromIds.push(pricingData.from_id);
+            pricingData.from_id = fromIds;
+        }
+      
+        let properties = collectPropertiesJustKey(".update-properties-container .properties-container");
+        console.log(toIds);
+        let isMultiple = Array.isArray(pricingData.from_id) || Array.isArray(pricingData.to_id);
+        let url = isMultiple 
+            ? "http://127.0.0.1:8000/relations/delete-multiple-properties" 
+            : "http://127.0.0.1:8000/relation/delete-properties";
+    
+        let body = {
+            relation_type: relationType,
+            from_label: pricingData.from_label,
+            to_label: pricingData.to_label,
+            properties: properties
+        };
+    
+        if (isMultiple) {
+            console.log("ismultiple");
+            body.from_ids = Array.isArray(pricingData.from_id) ? pricingData.from_id : [pricingData.from_id];
+            body.to_ids = Array.isArray(pricingData.to_id) ? pricingData.to_id : [pricingData.to_id];
+        } else {
+            body.from_id = pricingData.from_id;
+            body.to_id = pricingData.to_id;
+        }
+    
+        sendRequest(url, "DELETE", body, "Properties deleted successfully!");
+    });
 
   // Arrays para almacenar los IDs de los nodos seleccionados
 let fromIds = [];

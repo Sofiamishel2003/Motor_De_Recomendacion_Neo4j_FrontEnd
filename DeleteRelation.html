@@ -101,114 +101,93 @@
       </div>
     </div><!-- End Page Title -->
 
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="testimonials section">
+        <!-- Pricing Section -->
+        <section id="pricing" class="pricing section">
 
-      <div class="container">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-            <div class="testimonial-item">
-              <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
-              <h3>Saul Goodman</h3>
-              <h4>Ceo &amp; Founder</h4>
-              <div class="stars">
-                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+          <div class="container">
+    
+            <div class="row gy-3">
+    
+              <div class="col-xl-3 col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                <div id="from-container">
+                <div class="pricing-item">
+                  <div class="search-box">
+                    <button class="btn-search"><i class="fas fa-search"></i></button>
+                    <input type="text" class="input-search" placeholder="Enter From Id">
+                    <div class="search-results"></div>
+                  </div>
+                  <h4 class="pricing-title">ID: N/A</h4>
+                  <p class="pricing-type">Type: N/A</p>
+                  <div class="btn-wrap">
+                    <p class="pricing-type">Type: 
+                      <select id="from-node" class="node-type-dropdown">
+                        <option value="">Select From Node Type</option>
+                        <option value="Usuario">Usuario</option>
+                        <option value="Pelicula">Pelicula</option>
+                        <option value="Serie">Serie</option>
+                        <option value="Director">Director</option>
+                        <option value="Actor">Actor</option>
+                        <option value="Genero">Genero</option>
+                      </select>
+                    </p>
+                  </div>
+                </div>
               </div>
-              <p>
-                <i class="bi bi-quote quote-icon-left"></i>
-                <span>Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.</span>
-                <i class="bi bi-quote quote-icon-right"></i>
-              </p>
-            </div>
-          </div><!-- End testimonial item -->
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-            <div class="testimonial-item">
-              <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
-              <h3>Sara Wilsson</h3>
-              <h4>Designer</h4>
-              <div class="stars">
-                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+              <button id="add-from">+ Add From</button>
               </div>
-              <p>
-                <i class="bi bi-quote quote-icon-left"></i>
-                <span>Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.</span>
-                <i class="bi bi-quote quote-icon-right"></i>
-              </p>
-            </div>
-          </div><!-- End testimonial item -->
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
-            <div class="testimonial-item">
-              <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
-              <h3>Jena Karlis</h3>
-              <h4>Store Owner</h4>
-              <div class="stars">
-                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+              <!-- End First Pricing Item -->
+    
+              <!-- Update Properties Section -->
+              <div class="col-xl-3 col-lg-6" data-aos="fade-up" data-aos-delay="100">
+              <div class="update-properties-container">
+                <h3>Update Relationship Properties</h3>
+                <p class="pricing-type">Type: 
+                  <select id="relationship-type" class="node-type-dropdown" disabled>
+                    <option value="">Select To Relationship Type</option>
+                  </select>
+                </p>
+    
+                <div class="properties-container">
+                    <div class="property">
+                        <input type="text" class="property-key" placeholder="Property Key">
+                    </div>
+                </div>
+    
+                <button class="add-property">+</button>
+                <button class="submit-delete-properties">Update Properties</button>
               </div>
-              <p>
-                <i class="bi bi-quote quote-icon-left"></i>
-                <span>Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.</span>
-                <i class="bi bi-quote quote-icon-right"></i>
-              </p>
             </div>
-          </div><!-- End testimonial item -->
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
-            <div class="testimonial-item">
-              <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
-              <h3>Matt Brandon</h3>
-              <h4>Freelancer</h4>
-              <div class="stars">
-                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+    
+              
+              <div class="col-xl-3 col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                <div id="to-container">
+                <div class="pricing-item">
+                  <div class="search-box">
+                    <button class="btn-search"><i class="fas fa-search"></i></button>
+                    <input type="text" class="input-search" placeholder="Enter To Id">
+                    <div class="search-results"></div>
+                  </div>
+                  <h4 class="pricing-title">ID: N/A</h4>
+                  <p class="pricing-type">Type: N/A</p>
+                  <div class="btn-wrap">
+                    <p class="pricing-type">Type: 
+                      <select id="to-node" class="node-type-dropdown" disabled>
+                        <option value="">Select To Node Type</option>
+                      </select>
+                    </p>
+                  </div>
+                </div>
               </div>
-              <p>
-                <i class="bi bi-quote quote-icon-left"></i>
-                <span>Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.</span>
-                <i class="bi bi-quote quote-icon-right"></i>
-              </p>
-            </div>
-          </div><!-- End testimonial item -->
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="500">
-            <div class="testimonial-item">
-              <img src="assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
-              <h3>John Larson</h3>
-              <h4>Entrepreneur</h4>
-              <div class="stars">
-                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+              <button id="add-to">+ Add To</button>
               </div>
-              <p>
-                <i class="bi bi-quote quote-icon-left"></i>
-                <span>Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.</span>
-                <i class="bi bi-quote quote-icon-right"></i>
-              </p>
+              <!-- End Second Pricing Item -->
+              
+    
             </div>
-          </div><!-- End testimonial item -->
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="600">
-            <div class="testimonial-item">
-              <img src="assets/img/testimonials/testimonials-6.jpg" class="testimonial-img" alt="">
-              <h3>Emily Harison</h3>
-              <h4>Store Owner</h4>
-              <div class="stars">
-                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-              </div>
-              <p>
-                <i class="bi bi-quote quote-icon-left"></i>
-                <span>Eius ipsam praesentium dolor quaerat inventore rerum odio. Quos laudantium adipisci eius. Accusamus qui iste cupiditate sed temporibus est aspernatur. Sequi officiis ea et quia quidem.</span>
-                <i class="bi bi-quote quote-icon-right"></i>
-              </p>
-            </div>
-          </div><!-- End testimonial item -->
-
-        </div>
-
-      </div>
-
-    </section><!-- /Testimonials Section -->
+    
+          </div>
+    
+        </section><!-- /Pricing Section -->
 
   </main>
 
