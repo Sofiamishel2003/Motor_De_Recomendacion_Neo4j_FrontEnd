@@ -200,8 +200,8 @@
 
     const validRelationships = {
       "Usuario": { 
-          relationships: ["VIO", "CALIFICO", "RECOMENDO"], 
-          validTargets: ["Pelicula", "Serie", "Genero"] 
+          relationships: ["VIO", "CALIFICO", "RECOMENDO","SIGUE","ADMIRA"], 
+          validTargets: ["Pelicula", "Serie", "Genero","Director", "Actor"] 
       },
       "Pelicula": { 
           relationships: ["PERTENECE_A", "DIRIGIDA_POR"], 
@@ -276,18 +276,36 @@
             if (event.key === "Enter") {
                 event.preventDefault();
                 let nodeId = this.value.trim();
+                
                 if (!nodeId) return;
 
-                fetch(`http://127.0.0.1:8000/search/${nodeId}`)
+                let inputField = this;
+                let isFromField = inputField.placeholder.includes("From"); // Check if input is "from" or "to"
+                console.log(inputField);
+                let selectedLabel;
+                if(isFromField){
+                  selectedLabel=fromDropdown.value;
+                }
+                else{
+                  selectedLabel=toDropdown.value;
+                }
+
+                if (!selectedLabel) {
+                    console.error("Error: No label selected for node search.");
+                    return;
+                }
+
+                fetch(`http://127.0.0.1:8000/searchidlabel/${nodeId}/${selectedLabel}`)
                     .then(response => response.json())
                     .then(data => {
                         console.log("Parsed JSON response:", data);
                         let label = data.labels ? data.labels.join(", ") : "No label";
                         let idText = data.error ? "ID: Not found" : `ID: ${data.id}`;
                         let typeText = data.error ? "Type: Unknown" : `Type: ${label}`;
-                        updatePricingItem(this, idText, typeText);
+                        updatePricingItem(inputField, idText, typeText);
                     })
                     .catch(error => console.error("Error fetching node:", error));
+
             }
         });
     });
@@ -397,7 +415,7 @@
     // Manejar creación de relaciones
     document.querySelector(".submit-relation")?.addEventListener("click", function () {
         let pricingData = getPricingData();
-        console.log(pricingData);
+        console.log("pricing data:",pricingData);
         let relationType = document.querySelector(".relationship-type")?.value.trim();
         if (!pricingData || !relationType) {
             alert("Please make sure all fields are filled.");
@@ -417,7 +435,9 @@
     // Manejar actualización de propiedades
     document.querySelector(".submit-add-properties")?.addEventListener("click", function () {
         let pricingData = getPricingData();
-        let relationType = document.querySelector(".relation-type")?.value.trim();
+        console.log("pricing data: ",pricingData);
+        let relationType = relationDropdown.value;
+        console.log("relation type",relationType);
         if (!pricingData || !relationType) {
             alert("Please make sure all fields are filled.");
             return;
