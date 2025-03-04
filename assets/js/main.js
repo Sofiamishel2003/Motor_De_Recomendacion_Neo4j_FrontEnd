@@ -348,12 +348,13 @@
 
     // Obtener datos de los elementos de precio
     function getPricingData() {
-      let pricingItems = document.querySelectorAll(".pricing-item");
-      console.log(pricingItems);
-      if (pricingItems.length < 2) {
-          alert("Not enough pricing items found.");
-          return null;
-      }
+        let fromItem = document.querySelector("#from-container .pricing-item");
+        let toItem = document.querySelector("#to-container .pricing-item"); // Asegúrate de que este contenedor existe.
+    
+        if (!fromItem || !toItem) {
+            alert("Missing required pricing items.");
+            return null;
+        }
   
       function extractData(item) {
           let idText = item.querySelector(".pricing-title")?.textContent || "";
@@ -364,8 +365,8 @@
           };
       }
   
-      let fromData = extractData(pricingItems[0]);
-      let toData = extractData(pricingItems[1]);
+      let fromData = extractData(fromItem);
+      let toData = extractData(toItem);
   
       if (!fromData.id || !toData.id) {
           alert("Missing node IDs.");
