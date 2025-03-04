@@ -86,59 +86,54 @@
         </div>
       </header>
 
-  <main class="main">
-    <section class="vh-100 gradient-custom">
-        <div class="container py-5 h-100">
-            <div class="row justify-content-center align-items-center h-100">
-                <div class="col-lg-8">
-                    <div class="card shadow-lg p-4">
-                        <h3 class="mb-4 text-center">Agregar Propiedad</h3>
-                        <form id="addPropertyForm">
-                            <div class="mb-3">
-                                <label class="form-label">Tipo de Nodo</label>
-                                <select class="form-select" id="nodeType">
-                                    <option value="Usuario">Usuario</option>
-                                    <option value="Pelicula">Película</option>
-                                    <option value="Serie">Serie</option>
-                                    <option value="Genero">Género</option>
-                                    <option value="Actor">Actor</option>
-                                    <option value="Director">Director</option>
-                                </select>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6 mb-4 d-flex align-items-center">
-                
-                                  <div id="nodeIdsContainer" data-mdb-input-init class="form-outline datepicker w-100">
-                                      <label class="form-label">ID del Nodo</label>
-                                      <input type="number" class="form-control" id="nodeId" required>
-                                  </div>
-                
+      <main class="main">
+        <section class="vh-100 gradient-custom">
+            <div class="container py-5 h-100">
+                <div class="row justify-content-center align-items-center h-100">
+                    <div class="col-lg-8">
+                        <div class="card shadow-lg p-4">
+                            <h3 class="mb-4 text-center">Agregar Propiedad</h3>
+                            <form id="addPropertyForm">
+                                <div class="mb-3">
+                                    <label class="form-label">Tipo de Nodo</label>
+                                    <select class="form-select" id="nodeType">
+                                        <option value="Usuario">Usuario</option>
+                                        <option value="Pelicula">Película</option>
+                                        <option value="Serie">Serie</option>
+                                        <option value="Genero">Género</option>
+                                        <option value="Actor">Actor</option>
+                                        <option value="Director">Director</option>
+                                    </select>
                                 </div>
-                                <div class="col-md-6 mb-4">
-                
-                                  <h6 class="mb-2 pb-1">Afectar solo 1 nodo o múltiples </h6>
-                
-                                  <div class="form-check form-check-inline">
-                                      <input  type="checkbox" id="multiNode"> <label for="multiNode"> Múltiples Nodos</label>
+    
+                                <div class="row">
+                                    <div class="col-md-6 mb-4 d-flex align-items-center">
+                                      <div id="nodeIdsContainer" class="form-outline datepicker w-100">
+                                          <label class="form-label">ID del Nodo</label>
+                                          <input type="text" class="form-control" id="nodeId" required>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                      <h6 class="mb-2 pb-1">Afectar solo 1 nodo o múltiples </h6>
+                                      <div class="form-check form-check-inline">
+                                          <input type="checkbox" id="multiNode"> <label for="multiNode"> Múltiples Nodos</label>
+                                      </div>
+                                    </div>
                                   </div>
-                
+    
+                                <div id="propertiesContainer" class="mb-3">
+                                    <label class="form-label">Propiedades</label>
                                 </div>
-                              </div>
-
-                            <div id="propertiesContainer" class="mb-3">
-                                <label class="form-label">Propiedades</label>
-                            </div>
-
-                            <button type="button" class="btn btn-secondary mb-3" id="addPropertyBtn">Añadir Propiedad</button>
-                            <button type="submit" class="btn btn-submit-custom w-100">Guardar</button>
-                        </form>
+    
+                                <button type="button" class="btn btn-secondary mb-3" id="addPropertyBtn">Añadir Propiedad</button>
+                                <button type="submit" class="btn btn-submit-custom w-100">Guardar</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-</main>
+        </section>
+    </main>    
 
   <footer id="footer" class="footer dark-background">
 
@@ -185,6 +180,8 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script type="module" src="assets/js/apiHandler.js"></script>
+  <script type="module" src="assets/js/Properties.js"></script>  
 
 </body>
 
