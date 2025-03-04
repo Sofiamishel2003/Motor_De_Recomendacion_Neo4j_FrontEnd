@@ -271,15 +271,17 @@
       else{console.log("No valid relationships found for", selectedFromNode);}
   });
     // Manejar búsqueda de nodos al presionar Enter
-    document.querySelectorAll(".input-search").forEach(inputField => {
-        inputField.addEventListener("keypress", function (event) {
+    document.addEventListener("keypress", function (event) {
             if (event.key === "Enter") {
+              let inputField = event.target;
+              console.log("Detectado input:", inputField);
+              if (!inputField.classList.contains("input-search")) return;
                 event.preventDefault();
-                let nodeId = this.value.trim();
+                let nodeId = inputField.value.trim();
                 
                 if (!nodeId) return;
 
-                let inputField = this;
+                
                 let isFromField = inputField.placeholder.includes("From"); // Check if input is "from" or "to"
                 console.log(inputField);
                 let selectedLabel;
@@ -307,7 +309,7 @@
                     .catch(error => console.error("Error fetching node:", error));
 
             }
-        });
+        
     });
 
     // Configurar manejadores de propiedades dinámicas
@@ -347,6 +349,7 @@
     // Obtener datos de los elementos de precio
     function getPricingData() {
       let pricingItems = document.querySelectorAll(".pricing-item");
+      console.log(pricingItems);
       if (pricingItems.length < 2) {
           alert("Not enough pricing items found.");
           return null;
@@ -457,37 +460,122 @@
     // Manejar actualización de relaciones existentes
     document.querySelector(".submit-update-properties")?.addEventListener("click", function () {
       let pricingData = getPricingData();
-      let relationType = document.querySelector(".update-relation-type")?.value.trim();
+      console.log("pricing data: ",pricingData);
+      let relationType = relationDropdown.value;
+      console.log("relation type",relationType);
       if (!pricingData || !relationType) {
           alert("Please make sure all fields are filled.");
           return;
       }
-  
-      let properties = collectProperties(".update-properties-container .properties-container");
+      console.log(toIds);
+      if (toIds.length > 0) {
+          toIds = toIds.map(item => parseInt(item.value)).filter(num => !isNaN(num));
+          toIds.push(pricingData.to_id);
+          pricingData.to_id = toIds;
+      }
       
-      let isMultiple = Array.isArray(pricingData.id) || Array.isArray(pricingData.toId);
+      if (fromIds.length > 0) {
+          fromIds = fromIds.map(item => parseInt(item.value)).filter(num => !isNaN(num));
+          fromIds.push(pricingData.from_id);
+          pricingData.from_id = fromIds;
+      }
+    
+      let properties = collectProperties(".update-properties-container .properties-container");
+      console.log(toIds);
+      let isMultiple = Array.isArray(pricingData.from_id) || Array.isArray(pricingData.to_id);
       let url = isMultiple 
           ? "http://127.0.0.1:8000/relations/update-multiple" 
           : "http://127.0.0.1:8000/relation/update-properties";
   
       let body = {
           relation_type: relationType,
-          from_label: pricingData.label,
-          to_label: pricingData.toLabel,
+          from_label: pricingData.from_label,
+          to_label: pricingData.to_label,
           properties: properties
       };
   
       if (isMultiple) {
-          body.from_ids = Array.isArray(pricingData.id) ? pricingData.id : [pricingData.id];
-          body.to_ids = Array.isArray(pricingData.toId) ? pricingData.toId : [pricingData.toId];
+          console.log("ismultiple");
+          body.from_ids = Array.isArray(pricingData.from_id) ? pricingData.from_id : [pricingData.from_id];
+          body.to_ids = Array.isArray(pricingData.to_id) ? pricingData.to_id : [pricingData.to_id];
       } else {
-          body.from_id = pricingData.id;
-          body.to_id = pricingData.toId;
+          body.from_id = pricingData.from_id;
+          body.to_id = pricingData.to_id;
       }
   
       sendRequest(url, "PUT", body, "Properties updated successfully!");
   });
-  
+
+  // Arrays para almacenar los IDs de los nodos seleccionados
+let fromIds = [];
+let toIds = [];
+
+
+    document.getElementById("add-from").addEventListener("click", function () {
+        addPricingItem("from-container", "Enter From Id", "from-node", fromIds);
+    });
+
+    document.getElementById("add-to").addEventListener("click", function () {
+        addPricingItem("to-container", "Enter To Id", "to-node", toIds);
+    });
+
+    function addPricingItem(containerId, placeholderText, dropdownId, idArray) {
+        const container = document.getElementById(containerId);
+        const newItem = document.createElement("div");
+        newItem.classList.add("pricing-item");
+
+        // Generate unique input ID
+        const inputId = `input-${Date.now()}`;
+        newItem.innerHTML = `
+            <div class="search-box">
+                <button class="btn-search"><i class="fas fa-search"></i></button>
+                <input type="text" id="${inputId}" class="input-search" placeholder="${placeholderText}">
+                <div class="search-results"></div>
+            </div>
+            <h4 class="pricing-title">ID: N/A</h4>
+            <p class="pricing-type">Type: N/A</p>
+            <button class="remove-item">Remove</button>
+        `;
+
+        container.appendChild(newItem);
+
+        // Capture user input and update the ID list
+        const inputField = newItem.querySelector(`#${inputId}`);
+        inputField.addEventListener("input", function () {
+            updateIdArray(idArray, inputField.value, inputId);
+        });
+
+        // Remove button functionality
+        newItem.querySelector(".remove-item").addEventListener("click", function () {
+            removeFromIdArray(idArray, inputId);
+            newItem.remove();
+        });
+    }
+
+    function updateIdArray(idArray, newValue, inputId) {
+        const index = idArray.findIndex(item => item.id === inputId);
+
+        if (index === -1) {
+            // Add new entry
+            idArray.push({ id: inputId, value: newValue });
+        } else {
+            // Update existing entry
+            idArray[index].value = newValue;
+        }
+
+        console.log("From IDs:", fromIds.map(item => item.value));
+        console.log("To IDs:", toIds.map(item => item.value));
+    }
+
+    function removeFromIdArray(idArray, inputId) {
+        const index = idArray.findIndex(item => item.id === inputId);
+        if (index !== -1) {
+            idArray.splice(index, 1);
+        }
+
+        console.log("From IDs after removal:", fromIds.map(item => item.value));
+        console.log("To IDs after removal:", toIds.map(item => item.value));
+    }
 });
 
 
