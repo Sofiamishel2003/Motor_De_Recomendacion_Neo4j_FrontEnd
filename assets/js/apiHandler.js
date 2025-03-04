@@ -15,6 +15,11 @@ async function actualizarPropiedad(label, ids, propiedades, multiple = false) {
 }
 
 async function eliminarPropiedad(label, ids, propiedades, multiple = false) {
+    if (propiedades.length === 0) {
+        alert("❌ Debes seleccionar al menos una propiedad para eliminar.");
+        return;
+    }
+
     const endpoint = multiple ? `/nodes/${label}/delete_properties` : "/node/delete-properties";
     const payload = multiple ? { label, node_ids: ids, properties: propiedades } : { label, id: ids[0], properties: propiedades };
 

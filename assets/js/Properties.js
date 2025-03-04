@@ -22,14 +22,27 @@ document.addEventListener("DOMContentLoaded", function () {
                 const nodeIds = isMultiNode 
                     ? form.querySelector("#nodeIds").value.split(",").map(id => parseInt(id.trim()))
                     : [parseInt(form.querySelector("#nodeId").value)];
-                
-                const properties = {};
-                form.querySelectorAll(".property-key").forEach((keyField, index) => {
-                    const key = keyField.value;
-                    const value = form.querySelectorAll(".property-value")[index]?.value;
-                    if (key && value) properties[key] = value;
-                });
-                
+
+                let properties;
+                if (action === "delete") {
+                    // Extraer solo las claves de propiedades a eliminar
+                    properties = Array.from(form.querySelectorAll(".property-key")).map(select => select.value);
+                } else {
+                    // Para "add" y "edit", mantener pares clave-valor
+                    properties = {};
+                    form.querySelectorAll(".property-key").forEach((keyField, index) => {
+                        const key = keyField.value;
+                        const value = form.querySelectorAll(".property-value")[index]?.value;
+                        if (key && value) properties[key] = value;
+                    });
+                }
+
+                // Verificar que hay al menos una propiedad en caso de eliminación
+                if (action === "delete" && properties.length === 0) {
+                    showAlert("❌ Debes seleccionar al menos una propiedad para eliminar.", false);
+                    return;
+                }
+
                 try {
                     let response;
                     if (action === "add") {
@@ -37,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     } else if (action === "edit") {
                         response = await actualizarPropiedad(label, nodeIds, properties, isMultiNode);
                     } else if (action === "delete") {
-                        response = await eliminarPropiedad(label, nodeIds, Object.keys(properties), isMultiNode);
+                        response = await eliminarPropiedad(label, nodeIds, properties, isMultiNode);
                     }
                     
                     console.log("Respuesta de la API:", response);
