@@ -119,7 +119,17 @@
               <h4 class="pricing-title">ID: N/A</h4>
               <p class="pricing-type">Type: N/A</p>
               <div class="btn-wrap">
-                <a href="#" class="btn-buy">Buy Now</a>
+                <p class="pricing-type">Type: 
+                  <select id="from-node" class="node-type-dropdown">
+                    <option value="">Select From Node Type</option>
+                    <option value="Usuario">Usuario</option>
+                    <option value="Pelicula">Pelicula</option>
+                    <option value="Serie">Serie</option>
+                    <option value="Director">Director</option>
+                    <option value="Actor">Actor</option>
+                    <option value="Genero">Genero</option>
+                  </select>
+                </p>
               </div>
             </div>
           </div>
@@ -128,7 +138,11 @@
             <!-- Relationship Inputs (Outside Pricing Items) -->
           <div class="col-xl-3 col-lg-6" data-aos="fade-up" data-aos-delay="100">
             <div class="relationship-container">
-              <input type="text" class="relationship-type" placeholder="Enter Relationship Type">
+              <p class="pricing-type">Type: 
+                <select id="relationship-type" class="node-type-dropdown" disabled>
+                  <option value="">Select To Relationship Type</option>
+                </select>
+              </p>
               
               <div class="properties-container">
                 <div class="property">
@@ -159,7 +173,11 @@
               <h4 class="pricing-title">ID: N/A</h4>
               <p class="pricing-type">Type: N/A</p>
               <div class="btn-wrap">
-                <a href="#" class="btn-buy">Buy Now</a>
+                <p class="pricing-type">Type: 
+                  <select id="to-node" class="node-type-dropdown" disabled>
+                    <option value="">Select To Node Type</option>
+                  </select>
+                </p>
               </div>
             </div>
           </div>

@@ -415,8 +415,9 @@
     // Manejar creación de relaciones
     document.querySelector(".submit-relation")?.addEventListener("click", function () {
         let pricingData = getPricingData();
+        let relationType = relationDropdown.value;
+        console.log("relation type",relationType);
         console.log("pricing data:",pricingData);
-        let relationType = document.querySelector(".relationship-type")?.value.trim();
         if (!pricingData || !relationType) {
             alert("Please make sure all fields are filled.");
             return;
