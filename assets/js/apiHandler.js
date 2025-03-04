@@ -58,7 +58,7 @@ async function generarVisualizacion() {
     const requestData = { f_label, f_val, t_label, t_val, rel, limit };
     
     try {
-        const response = await fetch(`${API_BASE_URL}/vis-simple`, {
+        const response = await fetch("https://motor-de-recomendacion-neo4j-sofia-velasquezs-projects.vercel.app/vis-simple", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(requestData)
@@ -68,18 +68,19 @@ async function generarVisualizacion() {
             throw new Error("Error en la respuesta del servidor");
         }
 
-        const blob = await response.blob();
-        const imageURL = URL.createObjectURL(blob);
+        // Crear un objeto Blob para la imagen
+        const imageBlob = await response.blob();
+        const imageURL = URL.createObjectURL(imageBlob);
         
-        // Verifica que el blob sea una imagen PNG antes de asignarlo
-        if (blob.type.startsWith("image/")) {
-            const imgElement = document.getElementById("graphImage");
-            imgElement.src = imageURL;
-            imgElement.classList.remove("d-none");
-        } else {
-            console.error("El servidor no devolvió una imagen válida.");
-            alert("El servidor no devolvió una imagen válida.");
-        }
+        console.log("Imagen generada en:", imageURL); // Depuración en consola
+
+        const imgElement = document.getElementById("graphImage");
+        imgElement.src = imageURL;
+        imgElement.classList.remove("d-none");
+        imgElement.style.display = "block"; // Asegurar que se muestre
+
+        // Abrir en una nueva pestaña para comprobar si la imagen es válida
+        window.open(imageURL);
 
     } catch (error) {
         console.error("Error al obtener la visualización:", error);
