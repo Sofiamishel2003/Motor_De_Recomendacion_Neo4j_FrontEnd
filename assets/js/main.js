@@ -197,121 +197,278 @@
   window.addEventListener("load", initSwiper);
 
   document.addEventListener("DOMContentLoaded", function () {
+
+    const validRelationships = {
+      "Usuario": { 
+          relationships: ["VIO", "CALIFICO", "RECOMENDO"], 
+          validTargets: ["Pelicula", "Serie", "Genero"] 
+      },
+      "Pelicula": { 
+          relationships: ["PERTENECE_A", "DIRIGIDA_POR"], 
+          validTargets: ["Genero", "Director"] 
+      },
+      "Serie": { 
+          relationships: ["TIENE_TEMATICA", "PRODUCIDA_POR"], 
+          validTargets: ["Genero", "Director"] 
+      },
+      "Actor": { 
+          relationships: ["PARTICIPO_EN"], 
+          validTargets: ["Pelicula", "Serie"] 
+      },
+      "Genero": { 
+          relationships: [], 
+          validTargets: [] 
+      },
+      "Director": { 
+          relationships: [], 
+          validTargets: [] 
+      }
+  };
+
+  const fromDropdown = document.getElementById("from-node");
+  const toDropdown = document.getElementById("to-node");
+  const relationDropdown = document.getElementById("relationship-type");
+
+  fromDropdown.addEventListener("change", function () {
+      const selectedFromNode = fromDropdown.value;
+      console.log("Selected From Node:", selectedFromNode);
+      
+      // Reset the relationship and to-node dropdowns
+      relationDropdown.innerHTML = '<option value="">Select Relationship</option>';
+      toDropdown.innerHTML = '<option value="">Select To Node Type</option>';
+      toDropdown.disabled = true;
+      relationDropdown.disabled = true;
+
+      if (validRelationships[selectedFromNode]) {
+          // Populate valid relationships
+          console.log("there are relationships: ",validRelationships[selectedFromNode]);
+          validRelationships[selectedFromNode].relationships.forEach(rel => {
+              let option = document.createElement("option");
+              option.value = rel;
+              option.textContent = rel;
+              relationDropdown.appendChild(option);
+          });
+
+          // Enable relationship dropdown if there are valid relationships
+          if (validRelationships[selectedFromNode].relationships.length > 0) {
+            console.log("Enabled toDropdown with options:", toDropdown.innerHTML);
+              relationDropdown.disabled = false;
+          }
+
+          // Populate valid target node types
+          validRelationships[selectedFromNode].validTargets.forEach(target => {
+              let option = document.createElement("option");
+              option.value = target;
+              option.textContent = target;
+              toDropdown.appendChild(option);
+          });
+
+          // Enable to-node dropdown if there are valid targets
+          if (validRelationships[selectedFromNode].validTargets.length > 0) {
+              toDropdown.disabled = false;
+          }
+      }
+      else{console.log("No valid relationships found for", selectedFromNode);}
+  });
+    // Manejar búsqueda de nodos al presionar Enter
     document.querySelectorAll(".input-search").forEach(inputField => {
         inputField.addEventListener("keypress", function (event) {
-            if (event.key === "Enter") {  
+            if (event.key === "Enter") {
                 event.preventDefault();
-                let nodeId = this.value.trim();  // Get input value
+                let nodeId = this.value.trim();
+                if (!nodeId) return;
 
-                if (nodeId) {
-                    fetch(`http://127.0.0.1:8000/search/${nodeId}`)  
+                fetch(`http://127.0.0.1:8000/search/${nodeId}`)
                     .then(response => response.json())
                     .then(data => {
                         console.log("Parsed JSON response:", data);
-
-                        if (data.error) {
-                            updatePricingItem(this, "ID: Not found", "Type: Unknown");
-                        } else {
-                            let label = data.labels ? data.labels.join(", ") : "No label";
-                            updatePricingItem(this, `ID: ${data.id}`, `Type: ${label}`);
-                        }
+                        let label = data.labels ? data.labels.join(", ") : "No label";
+                        let idText = data.error ? "ID: Not found" : `ID: ${data.id}`;
+                        let typeText = data.error ? "Type: Unknown" : `Type: ${label}`;
+                        updatePricingItem(this, idText, typeText);
                     })
                     .catch(error => console.error("Error fetching node:", error));
-                }
             }
         });
     });
 
+    // Configurar manejadores de propiedades dinámicas
+    function setupPropertyHandler(containerSelector, addButtonSelector) {
+        let propertiesContainer = document.querySelector(containerSelector);
+        let addButton = document.querySelector(addButtonSelector);
 
+        if (propertiesContainer && addButton) {
+            addButton.addEventListener("click", function () {
+                let propertyDiv = document.createElement("div");
+                propertyDiv.classList.add("property");
 
-// Add dynamic property fields outside the pricing items
-let propertiesContainer = document.querySelector(".properties-container");
-let addButton = document.querySelector(".add-property");
+                let keyInput = document.createElement("input");
+                keyInput.type = "text";
+                keyInput.classList.add("property-key");
+                keyInput.placeholder = "Property Key";
 
-addButton.addEventListener("click", function () {
-    let propertyDiv = document.createElement("div");
-    propertyDiv.classList.add("property");
+                let valueInput = document.createElement("input");
+                valueInput.type = "text";
+                valueInput.classList.add("property-value");
+                valueInput.placeholder = "Property Value";
 
-    let keyInput = document.createElement("input");
-    keyInput.type = "text";
-    keyInput.classList.add("property-key");
-    keyInput.placeholder = "Property Key";
+                let removeButton = document.createElement("button");
+                removeButton.textContent = "-";
+                removeButton.classList.add("remove-property");
+                removeButton.addEventListener("click", () => propertiesContainer.removeChild(propertyDiv));
 
-    let valueInput = document.createElement("input");
-    valueInput.type = "text";
-    valueInput.classList.add("property-value");
-    valueInput.placeholder = "Property Value";
+                propertyDiv.append(keyInput, valueInput, removeButton);
+                propertiesContainer.appendChild(propertyDiv);
+            });
+        }
+    }
 
-    let removeButton = document.createElement("button");
-    removeButton.textContent = "-";
-    removeButton.classList.add("remove-property");
-    removeButton.addEventListener("click", function () {
-        propertiesContainer.removeChild(propertyDiv);
+    setupPropertyHandler(".properties-container", ".add-property");
+    setupPropertyHandler(".add-properties-container .properties-container", ".add-properties-container .add-property");
+
+    // Obtener datos de los elementos de precio
+    function getPricingData() {
+      let pricingItems = document.querySelectorAll(".pricing-item");
+      if (pricingItems.length < 2) {
+          alert("Not enough pricing items found.");
+          return null;
+      }
+  
+      function extractData(item) {
+          let idText = item.querySelector(".pricing-title")?.textContent || "";
+          let typeText = item.querySelector(".pricing-type")?.textContent || "";
+          return {
+              id: parseInt(idText.replace("ID: ", "").trim()) || null,
+              label: typeText.replace("Type: ", "").trim() || "Unknown"
+          };
+      }
+  
+      let fromData = extractData(pricingItems[0]);
+      let toData = extractData(pricingItems[1]);
+  
+      if (!fromData.id || !toData.id) {
+          alert("Missing node IDs.");
+          return null;
+      }
+  
+      return {
+          from_label: fromData.label,
+          from_id: fromData.id,
+          to_label: toData.label,
+          to_id: toData.id
+      };
+  }
+  
+
+    // Recopilar propiedades desde un contenedor
+    function collectProperties(containerSelector) {
+        let properties = {};
+        document.querySelectorAll(`${containerSelector} .property`).forEach(propDiv => {
+            let key = propDiv.querySelector(".property-key")?.value.trim();
+            let value = propDiv.querySelector(".property-value")?.value.trim();
+            if (key && value) {
+                properties[key] = isNaN(value) ? value : parseFloat(value);
+            }
+        });
+        return properties;
+    }
+
+    // Función genérica para enviar solicitudes
+    function sendRequest(url, method, body, successMessage) {
+      if (!body || Object.keys(body).length === 0) {
+          alert("No data to send.");
+          return;
+      }
+      console.log(JSON.stringify(body));
+      fetch(url, {
+          method: method,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body)
+      })
+      .then(response => response.json())
+      .then(data => {
+          console.log("Response:", data);
+          alert(data.message || successMessage);
+      })
+      .catch(error => console.error("Error:", error));
+  }
+  
+
+    // Manejar creación de relaciones
+    document.querySelector(".submit-relation")?.addEventListener("click", function () {
+        let pricingData = getPricingData();
+        console.log(pricingData);
+        let relationType = document.querySelector(".relationship-type")?.value.trim();
+        if (!pricingData || !relationType) {
+            alert("Please make sure all fields are filled.");
+            return;
+        }
+
+        sendRequest("http://127.0.0.1:8000/relation/create", "POST", {
+            from_label: pricingData.from_label,
+            from_id: pricingData.from_id,
+            to_label: pricingData.to_label,
+            to_id: pricingData.to_id,
+            relation_type: relationType,
+            properties: collectProperties(".properties-container")
+        }, "Relation created successfully!");
     });
 
-    propertyDiv.appendChild(keyInput);
-    propertyDiv.appendChild(valueInput);
-    propertyDiv.appendChild(removeButton);
-    propertiesContainer.appendChild(propertyDiv);
-});
+    // Manejar actualización de propiedades
+    document.querySelector(".submit-add-properties")?.addEventListener("click", function () {
+        let pricingData = getPricingData();
+        let relationType = document.querySelector(".relation-type")?.value.trim();
+        if (!pricingData || !relationType) {
+            alert("Please make sure all fields are filled.");
+            return;
+        }
 
-// Handle form submission
-document.querySelector(".submit-relation").addEventListener("click", function () {
-  let fromPricing = document.querySelectorAll(".pricing-item")[0];
-  let toPricing = document.querySelectorAll(".pricing-item")[1];
+        sendRequest("http://127.0.0.1:8000/relation/add-properties", "PUT", {
+            relation_type: relationType,
+            from_label: pricingData.from_label,
+            from_id: pricingData.from_id,
+            to_label: pricingData.to_label,
+            to_id: pricingData.to_id,
+            properties: collectProperties(".add-properties-container .properties-container")
+        }, "Properties added successfully!");
+    });
 
-  let fromTitle = fromPricing.querySelector(".pricing-title").textContent;
-  let fromType = fromPricing.querySelector(".pricing-type").textContent;
-  let toTitle = toPricing.querySelector(".pricing-title").textContent;
-  let toType = toPricing.querySelector(".pricing-type").textContent;
-  let relationType = document.querySelector(".relationship-type").value.trim();
-
-  if (!fromTitle.includes("ID:") || !toTitle.includes("ID:") || relationType === "") {
-      alert("Please make sure both nodes are selected and a relationship type is entered.");
-      return;
-  }
-
-  let fromId = parseInt(fromTitle.replace("ID: ", ""));
-  let toId = parseInt(toTitle.replace("ID: ", ""));
-  let fromLabel = fromType.replace("Type: ", "");
-  let toLabel = toType.replace("Type: ", "");
-
-  let properties = {};
-  document.querySelectorAll(".property").forEach(propDiv => {
-      let key = propDiv.querySelector(".property-key").value.trim();
-      let value = propDiv.querySelector(".property-value").value.trim();
-
-      if (key && value) {
-          properties[key] = isNaN(value) ? value : parseFloat(value); 
+    // Manejar actualización de relaciones existentes
+    document.querySelector(".submit-update-properties")?.addEventListener("click", function () {
+      let pricingData = getPricingData();
+      let relationType = document.querySelector(".update-relation-type")?.value.trim();
+      if (!pricingData || !relationType) {
+          alert("Please make sure all fields are filled.");
+          return;
       }
+  
+      let properties = collectProperties(".update-properties-container .properties-container");
+      
+      let isMultiple = Array.isArray(pricingData.id) || Array.isArray(pricingData.toId);
+      let url = isMultiple 
+          ? "http://127.0.0.1:8000/relations/update-multiple" 
+          : "http://127.0.0.1:8000/relation/update-properties";
+  
+      let body = {
+          relation_type: relationType,
+          from_label: pricingData.label,
+          to_label: pricingData.toLabel,
+          properties: properties
+      };
+  
+      if (isMultiple) {
+          body.from_ids = Array.isArray(pricingData.id) ? pricingData.id : [pricingData.id];
+          body.to_ids = Array.isArray(pricingData.toId) ? pricingData.toId : [pricingData.toId];
+      } else {
+          body.from_id = pricingData.id;
+          body.to_id = pricingData.toId;
+      }
+  
+      sendRequest(url, "PUT", body, "Properties updated successfully!");
   });
-
-  let requestData = {
-      from_label: fromLabel,
-      from_id: fromId,
-      to_label: toLabel,
-      to_id: toId,
-      relation_type: relationType,
-      properties: properties
-  };
-
-  console.log("Sending data:", requestData);
-
-  fetch("http://127.0.0.1:8000/relation/create", {
-      method: "POST",
-      headers: {
-          "Content-Type": "application/json"
-      },
-      body: JSON.stringify(requestData)
-  })
-  .then(response => response.json())
-  .then(data => {
-      console.log("Response:", data);
-      alert(data.message || "Relation created successfully!");
-  })
-  .catch(error => console.error("Error creating relation:", error));
+  
 });
-});
+
 
 function updatePricingItem(inputElement, idText, typeText) {
     let pricingItem = inputElement.closest(".pricing-item");  // Find the closest pricing-item
