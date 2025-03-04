@@ -95,5 +95,55 @@ async function generarVisualizacion() {
 // **Asigna la función al objeto window**
 window.generarVisualizacion = generarVisualizacion;
 
+async function generarVisualizacionFiltro() {
+    const labels = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
+                        .map(checkbox => checkbox.value);
 
-export { agregarPropiedad, actualizarPropiedad, eliminarPropiedad, generarVisualizacion };
+    const limit = document.getElementById("limit").value;
+    const showProps = document.getElementById("show_props").checked;
+
+    let conditions = [];
+    document.querySelectorAll(".condition-row").forEach(row => {
+        const prop = row.querySelector(".cond-prop").value;
+        const op = row.querySelector(".cond-op").value;
+        const val = row.querySelector(".cond-val").value;
+        if (prop && op && val) {
+            conditions.push(`${prop},${op},${val}`);
+        }
+    });
+
+    const requestData = { labels, limit, rels: labels, cond: conditions, show_props: showProps };
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/vis-filter`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(requestData)
+        });
+
+        if (!response.ok) {
+            throw new Error("Error en la respuesta del servidor");
+        }
+
+        const imageBlob = await response.blob();
+        const imageURL = URL.createObjectURL(imageBlob);
+        
+        const imgElement = document.getElementById("graphImage");
+        if (imgElement.src) {
+            URL.revokeObjectURL(imgElement.src);
+        }
+
+        imgElement.src = imageURL;
+        imgElement.classList.remove("d-none");
+        imgElement.style.display = "block";
+
+    } catch (error) {
+        console.error("Error al obtener la visualización:", error);
+        alert("Error al obtener la visualización. Revisa la consola para más detalles.");
+    }
+}
+
+window.generarVisualizacionFiltro = generarVisualizacionFiltro;
+
+
+export { agregarPropiedad, actualizarPropiedad, eliminarPropiedad, generarVisualizacion ,generarVisualizacionFiltro};

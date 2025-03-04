@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Services - Sailor Bootstrap Template</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Sailor
+  * Template URL: https://bootstrapmade.com/sailor-free-bootstrap-theme/
+  * Updated: Aug 07 2024 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body class="services-page">
+
+  <header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+      <a href="index.html" class="logo d-flex align-items-center me-auto">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <img src="assets/img/logo1.png" alt="">
+        <h1 class="sitename">FilmLink</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html">Data Science</a></li>
+          <li class="dropdown"><a href="#"><span>New Node</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li><a href="NewNode1.html">1 label</a></li>
+              <li><a href="NewNode2.html">2 plus Labels</a></li>
+              <li><a href="NewNode3.html">5 properties</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"><a  href="#"><span>View Nodes</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li><a href="ViewNodes.html">Simple</a></li>
+              <li><a href="ViewNodesFilter.html">With filters</a></li>
+            </ul>
+          </li>        
+          <li class="dropdown"><a  href="#"><span>Edit Properties</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li><a href="AddProperties.html">Add properties</a></li>
+              <li><a href="EditProperties.html">Edit properties</a></li>
+              <li><a href="DeleteProperties.html">Delete properties</a></li>
+            </ul>
+          </li>          
+          <li><a href="newRelation.html">New Relation</a></li>
+          <li class="dropdown"><a href="#"><span>Edit Properties of Relations</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li><a href="AddRelation.html">Add Properties to relations</a></li>
+              <li><a href="EditRelation.html">Edit Properties of relations</a></li>
+              <li><a href="DeleteRelation.html">Delete properties of relations</a></li>
+            </ul>
+          </li>  
+          <li class="dropdown"><a href="#"><span>Delete</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li><a href="DeleteNode.html">Nodes</a></li>
+              <li><a href="DeleteRelations.html">Relations</a></li>
+            </ul>
+          </li>          </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+    </div>
+  </header>
+
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>View Nodes with Filters</title>
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/css/main.css" rel="stylesheet">
+</head>
+<body class="services-page">
+  <header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+      <a href="index.html" class="logo d-flex align-items-center me-auto">
+        <img src="assets/img/logo1.png" alt="">
+        <h1 class="sitename">FilmLink</h1>
+      </a>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="vh-100 gradient-custom">
+      <div class="container py-5 h-100">
+        <div class="row justify-content-center align-items-center h-100">
+          <div class="col-lg-8">
+            <div class="card shadow-lg p-4">
+              <h3 class="mb-4 text-center">Visualización con Filtros</h3>
+              <form id="filterGraphForm">
+                
+                <!-- Labels (Checkboxes en dos columnas) -->
+                <div class="row mb-3">
+                  <label class="form-label">Seleccionar Tipos de Nodos</label>
+                  <div class="col-md-6">
+                    <input type="checkbox" value="Usuario" class="form-check-input" id="Usuario"> <label for="Usuario">Usuario</label><br>
+                    <input type="checkbox" value="Pelicula" class="form-check-input" id="Pelicula"> <label for="Pelicula">Pelicula</label><br>
+                    <input type="checkbox" value="Serie" class="form-check-input" id="Serie"> <label for="Serie">Serie</label><br>
+                  </div>
+                  <div class="col-md-6">
+                    <input type="checkbox" value="Genero" class="form-check-input" id="Genero"> <label for="Genero">Genero</label><br>
+                    <input type="checkbox" value="Actor" class="form-check-input" id="Actor"> <label for="Actor">Actor</label><br>
+                    <input type="checkbox" value="Director" class="form-check-input" id="Director"> <label for="Director">Director</label><br>
+                  </div>
+                </div>
+                
+                <!-- Relaciones -->
+                <div class="row mb-3">
+                  <label class="form-label">Seleccionar Relaciones</label>
+                  <div class="col-md-6">
+                    <input type="checkbox" value="VIO" class="form-check-input" id="VIO"> <label for="VIO">VIO</label><br>
+                    <input type="checkbox" value="CALIFICO" class="form-check-input" id="CALIFICO"> <label for="CALIFICO">CALIFICO</label><br>
+                    <input type="checkbox" value="RECOMENDO" class="form-check-input" id="RECOMENDO"> <label for="RECOMENDO">RECOMENDO</label><br>
+                    <input type="checkbox" value="SIGUE" class="form-check-input" id="SIGUE"> <label for="SIGUE">SIGUE</label><br>
+                    <input type="checkbox" value="ADMIRA" class="form-check-input" id="ADMIRA"> <label for="ADMIRA">ADMIRA</label><br>
+                  </div>
+                  <div class="col-md-6">
+                    <input type="checkbox" value="PERTENECE_A" class="form-check-input" id="PERTENECE_A"> <label for="PERTENECE_A">PERTENECE_A</label><br>
+                    <input type="checkbox" value="TIENE_TEMATICA" class="form-check-input" id="TIENE_TEMATICA"> <label for="TIENE_TEMATICA">TIENE_TEMATICA</label><br>
+                    <input type="checkbox" value="DIRIGIDA_POR" class="form-check-input" id="DIRIGIDA_POR"> <label for="DIRIGIDA_POR">DIRIGIDA_POR</label><br>
+                    <input type="checkbox" value="PRODUCIDA_POR" class="form-check-input" id="PRODUCIDA_POR"> <label for="PRODUCIDA_POR">PRODUCIDA_POR</label><br>
+                    <input type="checkbox" value="PARTICIPO_EN" class="form-check-input" id="PARTICIPO_EN"> <label for="PARTICIPO_EN">PARTICIPO_EN</label><br>
+                  </div>
+                </div>
+
+                <!-- Límite y Mostrar Propiedades -->
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="limit" class="form-label">Límite de nodos</label>
+                    <input type="number" class="form-control" id="limit" value="20" min="1">
+                  </div>
+                  <div class="col-md-6 d-flex align-items-center">
+                    <label class="me-2">Mostrar Propiedades</label>
+                    <input type="checkbox" class="form-check-input" id="show_props">
+                  </div>
+                </div>
+
+                <!-- Condición fija -->
+                <div id="conditionsContainer" class="mb-3">
+                  <div class="row condition-row">
+                    <div class="col-md-4">
+                      <input type="text" class="form-control cond-prop" placeholder="Propiedad">
+                    </div>
+                    <div class="col-md-4">
+                      <select class="form-control cond-op">
+                        <option value=">">&gt;</option>
+                        <option value="<">&lt;</option>
+                        <option value="=">=</option>
+                        <option value=">=">&ge;</option>
+                        <option value="<=">&le;</option>
+                      </select>
+                    </div>
+                    <div class="col-md-4">
+                      <input type="text" class="form-control cond-val" placeholder="Valor">
+                    </div>
+                  </div>
+                </div>
+                
+                <button type="button" class="btn btn-secondary" onclick="agregarCondicion()">Agregar Condición</button>
+                
+                <button type="button" class="btn btn-submit-custom w-100" onclick="generarVisualizacionFiltro()">Generar</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="graph-container">
+      <img id="graphImage" src="" alt="Visualización del grafo" class="img-fluid d-none">
+    </div>
+  </main>
+ 
+
+<footer id="footer" class="footer dark-background">
+
+<div class="container footer-top">
+  <div class="row gy-4">
+    <div class="col-lg-4 col-md-6 footer-about">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <span class="sitename">FilmLink</span>
+      </a>
+      <div class="footer-contact pt-3">
+        <p>Sofia Velásquez</p>
+        <p>Nicolle Gordillo</p>
+        <p>José Rodrigo Marchena</p>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-3 footer-links">
+      <h4>Useful Links</h4>
+      <ul>
+        <li><a href="https://github.com/Sofiamishel2003/Motor_De_Recomendacion_Neo4j_FrontEnd.git">Repositorio Github FrontEnd</a></li>
+        <li><a href="https://github.com/Sofiamishel2003/Motor_De_Recomendacion_Neo4j.git">Repositorio Github BackEnd</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+</footer>
+
+<!-- Scroll Top -->
+<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Preloader -->
+<div id="preloader"></div>
+
+<!-- Vendor JS Files -->
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+<script src="assets/vendor/aos/aos.js"></script>
+<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+<script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+<script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+<script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+<!-- Main JS File -->
+<script src="assets/js/main.js"></script>
+<script type="module">
+  import { generarVisualizacionFiltro } from "./assets/js/apiHandler.js";
+  window.generarVisualizacionFiltro = generarVisualizacionFiltro;
+</script>
+<script>
+  function agregarCondicion() {
+    const container = document.getElementById("conditionsContainer");
+    const row = document.createElement("div");
+    row.classList.add("row", "condition-row", "mt-2");
+    row.innerHTML = `
+      <div class="col-md-4">
+        <input type="text" class="form-control cond-prop" placeholder="Propiedad">
+      </div>
+      <div class="col-md-4">
+        <select class="form-control cond-op">
+          <option value=">">&gt;</option>
+          <option value="<">&lt;</option>
+          <option value="=">=</option>
+          <option value=">=">&ge;</option>
+          <option value="<=">&le;</option>
+        </select>
+      </div>
+      <div class="col-md-4 d-flex">
+        <input type="text" class="form-control cond-val" placeholder="Valor">
+        <button type="button" class="btn btn-danger btn-sm ms-2 remove-condition" onclick="this.parentElement.parentElement.remove()">X</button>
+      </div>
+    `;
+    container.appendChild(row);
+  }
+</script>
+</body>
+
+</html>
