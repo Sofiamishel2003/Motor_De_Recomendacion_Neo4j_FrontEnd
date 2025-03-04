@@ -11,7 +11,7 @@ async function actualizarPropiedad(label, ids, propiedades, multiple = false) {
     const endpoint = multiple ? `/nodes/${label}/update_properties` : "/node/update-properties";
     const payload = multiple ? { label, node_ids: ids, properties: propiedades } : { label, id: ids[0], properties: propiedades };
 
-    return await realizarSolicitud("PUT", endpoint, payload);
+    return await realizarSolicitud("POST", endpoint, payload);
 }
 
 async function eliminarPropiedad(label, ids, propiedades, multiple = false) {
