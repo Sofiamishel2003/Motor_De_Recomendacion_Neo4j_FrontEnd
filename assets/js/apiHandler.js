@@ -47,5 +47,34 @@ async function realizarSolicitud(metodo, endpoint, datos) {
         throw error;
     }
 }
+async function generarVisualizacion() {
+    const f_label = document.getElementById("f_label").value;
+    const f_val = document.getElementById("f_val").value;
+    const t_label = document.getElementById("t_label").value;
+    const t_val = document.getElementById("t_val").value;
+    const rel = document.getElementById("rel").value;
+    const limit = document.getElementById("limit").value;
+    
+    const requestData = { f_label, f_val, t_label, t_val, rel, limit };
+    
+    try {
+        const response = await fetch("https://motor-de-recomendacion-neo4j-sofia-velasquezs-projects.vercel.app/vis-simple", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(requestData)
+        });
+        
+        if (!response.ok) {
+            throw new Error("Error en la respuesta del servidor");
+        }
+        
+        const imageURL = URL.createObjectURL(await response.blob());
+        document.getElementById("graphImage").src = imageURL;
+        document.getElementById("graphImage").classList.remove("d-none");
+    } catch (error) {
+        console.error("Error al obtener la visualización:", error);
+        alert("Error al obtener la visualización. Revisa la consola para más detalles.");
+    }
+}
 
-export { agregarPropiedad, actualizarPropiedad, eliminarPropiedad };
+export { agregarPropiedad, actualizarPropiedad, eliminarPropiedad, generarVisualizacion };
