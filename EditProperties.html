@@ -106,15 +106,20 @@
                                 </select>
                             </div>
 
-                            <div class="mb-3 form-check">
-                                <input type="checkbox" class="form-check-input" id="multiNode">
-                                <label class="form-check-label" for="multiNode">Afectar múltiples nodos</label>
-                            </div>
-
-                            <div id="nodeIdsContainer" class="mb-3">
-                                <label class="form-label">ID del Nodo</label>
-                                <input type="number" class="form-control" id="nodeId" required>
-                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-4 d-flex align-items-center">
+                                  <div id="nodeIdsContainer" class="form-outline datepicker w-100">
+                                      <label class="form-label">ID del Nodo</label>
+                                      <input type="text" class="form-control" id="nodeId" required>
+                                  </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                  <h6 class="mb-2 pb-1">Afectar solo 1 nodo o múltiples </h6>
+                                  <div class="form-check form-check-inline">
+                                      <input type="checkbox" id="multiNode"> <label for="multiNode"> Múltiples Nodos</label>
+                                  </div>
+                                </div>
+                              </div>
 
                             <div id="propertiesContainer" class="mb-3">
                                 <label class="form-label">Propiedades</label>
@@ -129,6 +134,7 @@
         </div>
     </section>
 </main>
+
 
   <footer id="footer" class="footer dark-background">
 
@@ -175,7 +181,8 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
-
+  <script type="module" src="assets/js/apiHandler.js"></script>
+  <script type="module" src="assets/js/Properties.js"></script>
 </body>
 
 </html>

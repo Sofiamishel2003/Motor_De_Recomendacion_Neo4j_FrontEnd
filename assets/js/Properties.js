@@ -7,12 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
         delete: document.getElementById("deletePropertyForm")
     };
 
-    function showToast(message, isSuccess = true) {
-        const toast = document.createElement("div");
-        toast.className = `toast-message ${isSuccess ? 'success' : 'error'}`;
-        toast.innerText = message;
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 3000);
+    function showAlert(message, isSuccess = true) {
+        alert(`${isSuccess ? '✅ Éxito:' : '❌ Error:'} ${message}`);
     }
 
     Object.keys(forms).forEach(action => {
@@ -45,11 +41,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                     
                     console.log("Respuesta de la API:", response);
-                    showToast("Operación exitosa", true);
+                    showAlert("Operación realizada con éxito", true);
                     form.reset();
                 } catch (error) {
                     console.error("Error en la operación:", error);
-                    showToast(`Error: ${error.message}`, false);
+                    showAlert(error.message, false);
                 }
             });
         }
