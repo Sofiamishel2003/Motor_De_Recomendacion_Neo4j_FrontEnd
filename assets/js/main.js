@@ -611,9 +611,23 @@
       sendRequest(url, "DELETE", body, "Relationships deleted successfully!");
   });
 
+  function getSinglePricingItem(containerSelector) {
+    let container = document.querySelector(containerSelector);
+    if (!container) return null;
+
+    let label = container.querySelector(".node-type-dropdown")?.value;
+    let idText = container.querySelector(".pricing-title")?.textContent;
+    
+    // Extraer el ID del texto (esperando formato "ID: 123")
+    let id = idText ? parseInt(idText.replace(/\D+/g, "")) : null;
+
+    return label && id ? { label, id } : null;
+}
+
+
     // Manejar delete de nodos
     document.querySelector(".submit-delete-nodos")?.addEventListener("click", function () {
-      let pricingData = getPricingData();
+      let pricingData = getSinglePricingItem("#from-container");
       console.log("pricing data: ",pricingData);
       if (!pricingData) {
           alert("Please make sure all fields are filled.");
@@ -622,24 +636,24 @@
       
       if (fromIds.length > 0) {
           fromIds = fromIds.map(item => parseInt(item.value)).filter(num => !isNaN(num));
-          fromIds.push(pricingData.from_id);
-          pricingData.from_id = fromIds;
+          fromIds.push(pricingData.id);
+          pricingData.id = fromIds;
       }
     
-      let isMultiple = Array.isArray(pricingData.from_id) || Array.isArray(pricingData.to_id);
+      let isMultiple = Array.isArray(pricingData.id);
       let url = isMultiple 
           ? "http://127.0.0.1:8000/nodes/delete-multiple" 
           : "http://127.0.0.1:8000/node/delete";
   
       let body = {
-          label: pricingData.from_label
+          label: pricingData.label
       };
   
       if (isMultiple) {
           console.log("ismultiple");
-          body.ids = Array.isArray(pricingData.from_id) ? pricingData.from_id : [pricingData.from_id];
+          body.ids = Array.isArray(pricingData.id) ? pricingData.id : [pricingData.id];
       } else {
-          body.id = pricingData.from_id;
+          body.id = pricingData.id;
       }
   
       sendRequest(url, "DELETE", body, "Nodes deleted successfully!");
