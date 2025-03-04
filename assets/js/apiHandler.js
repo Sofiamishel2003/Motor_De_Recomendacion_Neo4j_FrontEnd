@@ -56,7 +56,7 @@ async function generarVisualizacion() {
     const limit = document.getElementById("limit").value;
     
     const requestData = { f_label, f_val, t_label, t_val, rel, limit };
-    
+
     try {
         const response = await fetch("https://motor-de-recomendacion-neo4j-sofia-velasquezs-projects.vercel.app/vis-simple", {
             method: "POST",
@@ -75,12 +75,16 @@ async function generarVisualizacion() {
         console.log("Imagen generada en:", imageURL); // Depuración en consola
 
         const imgElement = document.getElementById("graphImage");
+        
+        // Limpiar el blob anterior para liberar memoria
+        if (imgElement.src) {
+            URL.revokeObjectURL(imgElement.src);
+        }
+
+        // Asignar la nueva imagen generada
         imgElement.src = imageURL;
         imgElement.classList.remove("d-none");
         imgElement.style.display = "block"; // Asegurar que se muestre
-
-        // Abrir en una nueva pestaña para comprobar si la imagen es válida
-        window.open(imageURL);
 
     } catch (error) {
         console.error("Error al obtener la visualización:", error);
