@@ -2614,7 +2614,7 @@ section,
 
 main {
     min-height: 100vh;
-    margin-bottom: 5px; /* Asegura espacio para el footer */
+    margin-bottom: 100px; /* Asegura espacio para el footer */
 }
 
   .btn-submit-custom {
