@@ -2611,8 +2611,8 @@ section,
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
-  }
+      overflow: visible; /* Permitir que la imagen se muestre completa */
+    }
 
   .graph-container img {
       max-width: 100%;
@@ -2621,7 +2621,7 @@ section,
   }
 
   main {
-      min-height: calc(100vh - 150px); /* Asegura que el contenido no se corte */
+      min-height: auto; /* Elimina restricciones de altura */
       padding-bottom: 5px; /* Separa el contenido del footer */
   }
 
