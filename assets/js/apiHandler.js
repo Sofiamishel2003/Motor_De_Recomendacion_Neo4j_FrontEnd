@@ -183,25 +183,5 @@ async function crearNodoSimple(label) {
     const payload = { label };
     return await realizarSolicitud("POST", endpoint, payload);
 }
-// Función genérica para realizar solicitudes HTTP a la API
-async function realizarSolicitud(metodo, endpoint, datos) {
-    try {
-        const respuesta = await fetch(`${API_BASE_URL}${endpoint}`, {
-            method: metodo,
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(datos)
-        });
-
-        const resultado = await respuesta.json();
-        if (!respuesta.ok) {
-            throw new Error(resultado.detail || "Error en la solicitud");
-        }
-        return resultado;
-    } catch (error) {
-        console.error("❌ Error en la solicitud:", error);
-        throw error;
-    }
-}
-
 
 export { crearNodoSimple, agregarPropiedad, actualizarPropiedad, eliminarPropiedad, generarVisualizacion ,generarVisualizacionFiltro, recomendarPorUsuario, recomendarPorSub, recomendarPorActor, recomendarPorDirector};
