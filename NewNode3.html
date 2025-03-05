@@ -173,114 +173,117 @@
     import { crearNodoConPropiedades } from "./assets/js/apiHandler.js";
 
     document.addEventListener("DOMContentLoaded", function () {
-        const propertiesContainer = document.getElementById("propertiesContainer");
-        const labelSelect = document.getElementById("labelWithPropsSelect");
-        const addPropertyBtn = document.getElementById("addPropertyBtn");
+    const propertiesContainer = document.getElementById("propertiesContainer");
+    const labelSelect = document.getElementById("labelWithPropsSelect");
+    const addPropertyBtn = document.getElementById("addPropertyBtn");
 
-        // Propiedades por etiqueta
-        const propertiesByLabel = {
-            "Usuario": ["id", "nombre", "edad", "pais", "suscripcion", "ultima_fecha_vista", "dispositivo", "activo", "intereses"],
-            "Pelicula": ["id", "titulo", "año", "duracion", "rating", "sinopsis", "activo"],
-            "Serie": ["id", "titulo", "temporadas", "episodios", "rating", "sinopsis", "activo"],
-            "Genero": ["id", "nombre", "popularidad", "descripcion", "subgeneros", "activo"],
-            "Actor": ["id", "nombre", "nacionalidad", "edad", "premios", "activo"],
-            "Director": ["id", "nombre", "nacionalidad", "edad", "premios", "activo"]
-        };
+    // Propiedades por etiqueta
+    const propertiesByLabel = {
+        "Usuario": ["id", "nombre", "edad", "pais", "suscripcion", "ultima_fecha_vista", "dispositivo", "activo", "intereses"],
+        "Pelicula": ["id", "titulo", "año", "duracion", "rating", "sinopsis", "activo"],
+        "Serie": ["id", "titulo", "temporadas", "episodios", "rating", "sinopsis", "activo"],
+        "Genero": ["id", "nombre", "popularidad", "descripcion", "subgeneros", "activo"],
+        "Actor": ["id", "nombre", "nacionalidad", "edad", "premios", "activo"],
+        "Director": ["id", "nombre", "nacionalidad", "edad", "premios", "activo"]
+    };
 
-        // Agregar una propiedad
-        function addPropertyRow(disableRemove = false) {
-            const div = document.createElement("div");
-            div.classList.add("mb-2", "d-flex", "gap-2");
+    // Agregar una propiedad
+    function addPropertyRow(disableRemove = false) {
+        const div = document.createElement("div");
+        div.classList.add("mb-2", "d-flex", "gap-2");
 
-            const propertySelect = document.createElement("select");
-            propertySelect.classList.add("form-select");
-            updatePropertyOptions(propertySelect);
+        const propertySelect = document.createElement("select");
+        propertySelect.classList.add("form-select");
 
-            const valueInput = document.createElement("input");
-            valueInput.type = "text";
-            valueInput.classList.add("form-control");
-            valueInput.placeholder = "Valor";
-            valueInput.required = true;
+        const valueInput = document.createElement("input");
+        valueInput.type = "text";
+        valueInput.classList.add("form-control");
+        valueInput.placeholder = "Valor";
+        valueInput.required = true;
 
-            const removeBtn = document.createElement("button");
-            removeBtn.classList.add("btn", "btn-danger");
-            removeBtn.innerHTML = "X";
-            removeBtn.type = "button";
-            removeBtn.addEventListener("click", () => {
-                div.remove();
-                updatePropertyDropdowns();
-            });
+        const removeBtn = document.createElement("button");
+        removeBtn.classList.add("btn", "btn-danger");
+        removeBtn.innerHTML = "X";
+        removeBtn.type = "button";
+        removeBtn.addEventListener("click", () => {
+            div.remove();
+            updatePropertyDropdowns();
+        });
 
-            div.appendChild(propertySelect);
-            div.appendChild(valueInput);
-            if (!disableRemove) div.appendChild(removeBtn);
-            propertiesContainer.appendChild(div);
-        }
+        div.appendChild(propertySelect);
+        div.appendChild(valueInput);
+        if (!disableRemove) div.appendChild(removeBtn);
+        propertiesContainer.appendChild(div);
 
-        // Actualizar opciones del dropdown según la etiqueta seleccionada
-        function updatePropertyOptions(select) {
-            select.innerHTML = "";
-            const selectedLabel = labelSelect.value;
+        updatePropertyDropdowns();
+    }
+
+    // Actualizar opciones del dropdown según la etiqueta seleccionada
+    function updatePropertyDropdowns() {
+        const selectedLabel = labelSelect.value;
+        const allDropdowns = document.querySelectorAll("#propertiesContainer select");
+
+        const usedProperties = new Set();
+        allDropdowns.forEach(select => {
+            if (select.value) {
+                usedProperties.add(select.value);
+            }
+        });
+
+        allDropdowns.forEach(select => {
+            const currentValue = select.value;
+            select.innerHTML = ""; // Limpiar opciones
+
             const availableProperties = propertiesByLabel[selectedLabel] || [];
             availableProperties.forEach(prop => {
                 const option = document.createElement("option");
                 option.value = prop;
                 option.innerText = prop;
-                select.appendChild(option);
-            });
-        }
 
-        // Evitar propiedades duplicadas en los dropdowns
-        function updatePropertyDropdowns() {
-            const selectedValues = Array.from(document.querySelectorAll("#propertiesContainer select"))
-                .map(select => select.value);
-
-            document.querySelectorAll("#propertiesContainer select").forEach(select => {
-                select.innerHTML = "";
-                const availableProperties = propertiesByLabel[labelSelect.value] || [];
-                availableProperties.forEach(prop => {
-                    if (!selectedValues.includes(prop) || prop === select.value) {
-                        const option = document.createElement("option");
-                        option.value = prop;
-                        option.innerText = prop;
-                        select.appendChild(option);
-                    }
-                });
-            });
-        }
-
-        // Evento al cambiar de etiqueta
-        labelSelect.addEventListener("change", function () {
-            propertiesContainer.innerHTML = "";
-            addPropertyRow(true);
-        });
-
-        // Botón para agregar más propiedades
-        addPropertyBtn.addEventListener("click", function () {
-            addPropertyRow(false);
-            updatePropertyDropdowns();
-        });
-
-        // Enviar formulario
-        document.getElementById("propertyNodeForm").addEventListener("submit", async (event) => {
-            event.preventDefault();
-            const label = labelSelect.value;
-            const properties = {};
-            document.querySelectorAll("#propertiesContainer div").forEach(div => {
-                const key = div.children[0].value;
-                const value = div.children[1].value;
-                properties[key] = value;
+                // Mantener la opción seleccionada aunque esté en otro dropdown
+                if (!usedProperties.has(prop) || prop === currentValue) {
+                    select.appendChild(option);
+                }
             });
 
-            try {
-                const response = await crearNodoConPropiedades(label, properties);
-                alert(`✅ ${response.message}\n🆔 ID: ${response.node_id[0].node_id}`);
-            } catch (error) {
-                alert(`❌ Error: ${error.message}`);
-            }
+            // Restaurar el valor original si sigue disponible
+            select.value = currentValue;
         });
+    }
 
-        // Inicializar con una propiedad fija
+    // Evento al cambiar de etiqueta
+    labelSelect.addEventListener("change", function () {
+        propertiesContainer.innerHTML = "";
         addPropertyRow(true);
     });
+
+    // Botón para agregar más propiedades
+    addPropertyBtn.addEventListener("click", function () {
+        addPropertyRow(false);
+        updatePropertyDropdowns();
+    });
+
+    // Enviar formulario
+    document.getElementById("propertyNodeForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const label = labelSelect.value;
+        const properties = {};
+        document.querySelectorAll("#propertiesContainer div").forEach(div => {
+            const key = div.children[0].value;
+            const value = div.children[1].value;
+            properties[key] = value;
+        });
+
+        try {
+            const response = await crearNodoConPropiedades(label, properties);
+            alert(`✅ ${response.message}\n🆔 ID: ${response.node_id[0].node_id}`);
+        } catch (error) {
+            alert(`❌ Error: ${error.message}`);
+        }
+    });
+
+    // Inicializar con una propiedad fija
+    addPropertyRow(true);
+});
+
 </script>
