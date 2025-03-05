@@ -100,15 +100,8 @@
                             <h3 class="mb-4 text-center">Crear etiqueta</h3>
                             <form id="singleLabelForm">
                                 <div class="mb-3">
-                                    <label class="form-label">Tipo de Nodo</label>
-                                    <select class="form-select" id="labelSelect">
-                                        <option value="Usuario">Usuario</option>
-                                        <option value="Pelicula">Película</option>
-                                        <option value="Serie">Serie</option>
-                                        <option value="Genero">Género</option>
-                                        <option value="Actor">Actor</option>
-                                        <option value="Director">Director</option>
-                                    </select>
+                                  <label class="form-label">Etiqueta Principal</label>
+                                  <input type="text" class="form-control" id="primaryLabelInput" placeholder="Escribe una etiqueta" required>                                  
                                 </div>
                                 <button type="submit" class="btn btn-submit-custom w-100">Crear Nodo</button>
                             </form>
@@ -170,8 +163,7 @@
     document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("singleLabelForm").addEventListener("submit", async (event) => {
             event.preventDefault(); // Evita que se recargue la página
-            const label = document.getElementById("labelSelect").value;
-
+            const label = document.getElementById("primaryLabelInput").value;
             try {
                 const response = await crearNodoSimple(label);
                 alert(`✅ Nodo creado exitosamente!\n🆔 ID: ${response.node_id[0].node_id}`);

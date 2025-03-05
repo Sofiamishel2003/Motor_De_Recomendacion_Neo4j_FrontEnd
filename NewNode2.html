@@ -100,14 +100,7 @@
                   <form id="multiLabelForm">
                     <div class="mb-3">
                       <label class="form-label">Etiqueta Principal</label>
-                      <select class="form-select" id="primaryLabelSelect">
-                        <option value="Usuario">Usuario</option>
-                        <option value="Pelicula">Película</option>
-                        <option value="Serie">Serie</option>
-                        <option value="Genero">Género</option>
-                        <option value="Actor">Actor</option>
-                        <option value="Director">Director</option>
-                      </select>
+                      <input type="text" class="form-control" id="primaryLabelInput" placeholder="Escribe una etiqueta" required>
                     </div>
     
                     <div id="extraLabelsContainer"></div>
@@ -180,10 +173,11 @@
             const div = document.createElement("div");
             div.classList.add("mb-2", "d-flex", "gap-2");
 
-            const select = document.createElement("select");
-            select.classList.add("form-select");
-            select.innerHTML = primaryLabelSelect.innerHTML;
-
+            const input = document.createElement("input");
+            input.type = "text";
+            input.classList.add("form-control");
+            input.placeholder = "Etiqueta extra";
+            input.required = true;
             const removeBtn = document.createElement("button");
             removeBtn.classList.add("btn", "btn-danger");
             removeBtn.innerHTML = "X";
@@ -198,11 +192,10 @@
         // Enviar el formulario
         document.getElementById("multiLabelForm").addEventListener("submit", async (event) => {
             event.preventDefault();
-            const labels = [primaryLabelSelect.value];
-            document.querySelectorAll("#extraLabelsContainer select").forEach(select => {
-                labels.push(select.value);
+            const labels = [primaryLabelInput.value]; // Usar el input en lugar del select
+            document.querySelectorAll("#extraLabelsContainer input").forEach(input => {
+                labels.push(input.value);
             });
-
             try {
                 const response = await crearNodoMultiple(labels);
                 alert(`✅ ${response.message}\n🆔 ID: ${response.node_id[0].node_id}`);
