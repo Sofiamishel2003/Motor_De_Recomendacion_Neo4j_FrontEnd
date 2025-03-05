@@ -184,4 +184,18 @@ async function crearNodoSimple(label) {
     return await realizarSolicitud("POST", endpoint, payload);
 }
 
-export { crearNodoSimple, agregarPropiedad, actualizarPropiedad, eliminarPropiedad, generarVisualizacion ,generarVisualizacionFiltro, recomendarPorUsuario, recomendarPorSub, recomendarPorActor, recomendarPorDirector};
+// Crear un nodo con múltiples etiquetas
+async function crearNodoMultiple(labels) {
+    const endpoint = "/node/create-multiple-labels";
+    const payload = { labels };
+    return await realizarSolicitud("POST", endpoint, payload);
+}
+
+// Crear un nodo con propiedades
+async function crearNodoConPropiedades(label, properties) {
+    const endpoint = "/node/create-with-properties";
+    const payload = { label, properties };
+    return await realizarSolicitud("POST", endpoint, payload);
+}
+
+export { crearNodoSimple,crearNodoMultiple,crearNodoConPropiedades, agregarPropiedad, actualizarPropiedad, eliminarPropiedad, generarVisualizacion ,generarVisualizacionFiltro, recomendarPorUsuario, recomendarPorSub, recomendarPorActor, recomendarPorDirector};

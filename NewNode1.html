@@ -98,7 +98,7 @@
                     <div class="col-lg-8">
                         <div class="card shadow-lg p-4">
                             <h3 class="mb-4 text-center">Crear etiqueta</h3>
-                            <form id="addPropertyForm">
+                            <form id="singleLabelForm">
                                 <div class="mb-3">
                                     <label class="form-label">Tipo de Nodo</label>
                                     <select class="form-select" id="nodeType">
@@ -167,16 +167,18 @@
   <script type="module">
     import { crearNodoSimple } from "./assets/js/apiHandler.js";
 
-    document.getElementById("singleLabelForm").addEventListener("submit", async (event) => {
-        event.preventDefault();
-        const label = document.getElementById("labelSelect").value;
+    document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("singleLabelForm").addEventListener("submit", async (event) => {
+            event.preventDefault(); // Evita que se recargue la página
+            const label = document.getElementById("labelSelect").value;
 
-        try {
-            const response = await crearNodoSimple(label);
-            alert(`✅ Nodo creado!\n🆔 ID: ${response.node_id[0].node_id}`);
-        } catch (error) {
-            alert(`❌ Error: ${error.message}`);
-        }
+            try {
+                const response = await crearNodoSimple(label);
+                alert(`✅ Nodo creado exitosamente!\n🆔 ID: ${response.node_id[0].node_id}`);
+            } catch (error) {
+                alert(`❌ Error: ${error.message}`);
+            }
+        });
     });
 </script>
 </body>
