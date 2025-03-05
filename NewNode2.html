@@ -178,13 +178,14 @@
             input.classList.add("form-control");
             input.placeholder = "Etiqueta extra";
             input.required = true;
+
             const removeBtn = document.createElement("button");
             removeBtn.classList.add("btn", "btn-danger");
             removeBtn.innerHTML = "X";
             removeBtn.type = "button";
             removeBtn.addEventListener("click", () => div.remove());
 
-            div.appendChild(select);
+            div.appendChild(input);  // ✅ CORREGIDO: Ahora se agrega el `input` en vez del `select`
             div.appendChild(removeBtn);
             extraLabelsContainer.appendChild(div);
         });
@@ -192,10 +193,12 @@
         // Enviar el formulario
         document.getElementById("multiLabelForm").addEventListener("submit", async (event) => {
             event.preventDefault();
-            const labels = [primaryLabelInput.value]; // Usar el input en lugar del select
+            const labels = [document.getElementById("primaryLabelInput").value]; // ✅ Corregido
+
             document.querySelectorAll("#extraLabelsContainer input").forEach(input => {
                 labels.push(input.value);
             });
+
             try {
                 const response = await crearNodoMultiple(labels);
                 alert(`✅ ${response.message}\n🆔 ID: ${response.node_id[0].node_id}`);
@@ -203,6 +206,7 @@
                 alert(`❌ Error: ${error.message}`);
             }
         });
+
     });
 </script>
 
